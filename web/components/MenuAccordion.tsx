@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import type { MenuCategoryData, MenuItem } from "@/lib/menu-fallback";
 
@@ -58,7 +58,6 @@ function PricingRow({
   );
 }
 
-const NAV_HEIGHT = 100; // px — fixed header + breathing room
 
 function CategoryPanel({
   category,
@@ -69,25 +68,13 @@ function CategoryPanel({
   open: boolean;
   onToggle: () => void;
 }>) {
-  const titleRef = useRef<HTMLHeadingElement>(null);
-
   function handleToggle() {
-    const opening = !open;
     onToggle();
-    if (!opening) return;
-    setTimeout(() => {
-      if (!titleRef.current) return;
-      const rect = titleRef.current.getBoundingClientRect();
-      window.scrollTo({
-        top: window.scrollY + rect.top - NAV_HEIGHT,
-        behavior: "smooth",
-      });
-    }, 50);
   }
 
   return (
     <div>
-      <h5 ref={titleRef} className="m-0">
+      <h5 className="m-0">
         <button
           type="button"
           onClick={handleToggle}
