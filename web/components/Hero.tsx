@@ -24,6 +24,7 @@ export async function Hero({ locale }: Readonly<{ locale: Locale }>) {
         alt={`${settings.name} — photo d'ambiance`}
         fill
         priority
+        fetchPriority="high"
         className="object-cover object-center"
         sizes="100vw"
       />

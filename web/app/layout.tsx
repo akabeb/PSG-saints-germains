@@ -79,6 +79,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
+      </head>
       <body
         className={`${caviarDreams.variable} ${metropolis.variable} ${josefin.variable} ${arsenal.variable} ${miniver.variable} font-nav min-h-screen antialiased`}
       >
