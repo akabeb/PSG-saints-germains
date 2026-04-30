@@ -1,0 +1,11 @@
+.env
+.claude/
+web/.env.local
+web/.next
+web/dist
+web/node_modules
+import/*.sql
+import/*.sql.gz
+*.sql
+*.sql.gz
+wordpress/

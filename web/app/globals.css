@@ -1,0 +1,279 @@
+@import "tailwindcss";
+
+/*
+ * Design System — extrait directement de :
+ *   modules.css (thème Laurent)
+ *   style_dynamic.css (customizer WordPress)
+ */
+:root {
+  --wp-accent: #005e66;      /* teal — titres de section, accents (=WP customizer) */
+  --wp-ink: #071214;
+  --wp-surface: #ffffff;
+  --wp-panel: #0b1315;
+  --wp-field-border: #715b3e;
+  --wp-gold: #c9ab81;        /* or — taglines Miniver, hover nav, éléments décoratifs */
+  --wp-teal: #005e66;        /* alias explicite, identique à --wp-accent */
+  --wp-ornament: #9C7C57;
+  --wp-warm: #faf9f4;
+}
+
+/*
+ * @theme inline = la valeur est INLINE dans les utilities générées
+ * (.font-nav, .font-heading, .font-body). Indispensable car next/font expose
+ * --font-josefin/--font-caviar/--font-arsenal SUR <body>, pas sur :root —
+ * donc une définition de --font-nav dans :root échouerait à résoudre.
+ */
+@theme inline {
+  --color-wp-accent: var(--wp-accent);
+  --color-wp-ink: var(--wp-ink);
+  --color-wp-surface: var(--wp-surface);
+  --color-wp-panel: var(--wp-panel);
+  --color-wp-field-border: var(--wp-field-border);
+  --color-wp-gold: var(--wp-gold);
+  --color-wp-teal: var(--wp-teal);
+  --color-wp-ornament: var(--wp-ornament);
+  --color-wp-warm: var(--wp-warm);
+  /* caviar_dreamsbold (local) remplace Voltaire pour tous les titres */
+  --font-heading: var(--font-caviar), "Caviar Dreams", ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-arsenal), ui-sans-serif, system-ui, sans-serif;
+  --font-nav: var(--font-josefin), ui-sans-serif, system-ui, sans-serif;
+  /* Josefin Sans condensé (letter-spacing .36em) = équivalent Open Sans Condensed WP */
+  --font-cta: var(--font-josefin), ui-sans-serif, system-ui, sans-serif;
+}
+
+/*
+ * Toutes les règles d'éléments sont dans @layer base pour qu'elles soient
+ * écrasables par les utilities Tailwind (text-white, text-wp-accent, etc.).
+ */
+@layer base {
+  body {
+    --font-heading: var(--font-caviar), "Caviar Dreams", ui-sans-serif, system-ui, sans-serif;
+    --font-body: var(--font-arsenal), ui-sans-serif, system-ui, sans-serif;
+    --font-nav: var(--font-josefin), ui-sans-serif, system-ui, sans-serif;
+    --font-script: var(--font-miniver), cursive;
+    --font-cta: var(--font-josefin), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-nav);
+    font-weight: 300;
+    font-size: 19px;
+    line-height: 29px;
+    color: var(--wp-surface);
+    background-color: var(--wp-panel);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /*
+   * Titres — thème Laurent (style_dynamic.css WP customizer) :
+   * h1  = blanc sur fond sombre (hero), teal sur fond clair
+   * h2–h6 = teal #005e66
+   * text-transform: uppercase sur tous les niveaux
+   */
+  h1 {
+    color: var(--wp-surface);
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 1.27em;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  h2 {
+    color: var(--wp-accent);
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: 41px;
+    line-height: 1.31em;
+    letter-spacing: 0.23em;
+    text-transform: uppercase;
+  }
+  h3 {
+    color: var(--wp-accent);
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1.30em;
+    letter-spacing: 0.23em;
+    text-transform: uppercase;
+  }
+  h4 {
+    color: var(--wp-accent);
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.39em;
+    letter-spacing: 0.23em;
+    text-transform: uppercase;
+  }
+  h5 {
+    color: var(--wp-accent);
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.52em;
+    letter-spacing: 0.23em;
+    text-transform: uppercase;
+  }
+  h6 {
+    color: var(--wp-accent);
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.58em;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  p { color: var(--wp-ink); font-family: var(--font-body); font-size: 16px; letter-spacing: 1px; }
+  a, p a { color: inherit; }
+}
+
+.font-heading { font-family: var(--font-heading); }
+.font-body { font-family: var(--font-body); }
+.font-nav { font-family: var(--font-nav); }
+/* Boutons CTA — Josefin Sans 300 + tracking .36em ≈ Open Sans Condensed du thème WP */
+.font-cta {
+  font-family: var(--font-cta);
+  font-weight: 300;
+  letter-spacing: 0.36em;
+}
+
+/*
+ * Section title holder — repro `.eltdf-section-title-holder.eltdf-st-decor-animation`.
+ * Tagline = Miniver gold ; decor zigzag de chaque côté du titre, animé au scroll.
+ */
+.section-title-holder {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+.section-title-holder .st-tagline {
+  font-family: var(--font-script), cursive;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0.04em;
+  color: var(--wp-gold);
+  display: block;
+  margin-bottom: 13px;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+}
+.section-title-holder .st-title-holder {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+.section-title-holder .st-title-holder .decor {
+  color: var(--wp-ornament);
+  position: relative;
+  top: -1px;
+  display: inline-block;
+}
+.section-title-holder .st-title-holder .decor.decor-first { left: -30px; }
+.section-title-holder .st-title-holder .decor.decor-last { right: -20px; transform: rotate(180deg); }
+.section-title-holder .st-title-holder .decor svg path {
+  stroke-dashoffset: 57;
+  stroke-dasharray: 57;
+}
+.section-title-holder.appear .decor svg path {
+  animation: eltdfDrawDecor 1.2s forwards;
+}
+@keyframes eltdfDrawDecor {
+  from { stroke-dashoffset: 57; stroke-dasharray: 57; }
+  to { stroke-dashoffset: 0; stroke-dasharray: 57; }
+}
+.section-title-holder .st-title { margin: 0; }
+.section-title-holder .st-text {
+  display: block;
+  margin: 19px 0 0;
+}
+
+/*
+ * Pattern chevron-grid animé — `.eltdf-svg-pattern-holder.eltdf-appear` du thème.
+ */
+.pattern-holder svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.pattern-holder svg path {
+  stroke-dashoffset: 372;
+  stroke-dasharray: 372;
+  transition: stroke-dashoffset 2s ease, stroke-dasharray 2s ease;
+}
+.pattern-holder.appear svg path {
+  stroke-dashoffset: 0;
+}
+
+/*
+ * Lien de nav — repro des deux traits gold animés du thème Laurent.
+ */
+.nav-link {
+  position: relative;
+  display: inline-block;
+}
+.nav-link::before,
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--wp-gold);
+  transform: translateZ(0) scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.4s cubic-bezier(0.48, 0.57, 0.33, 0.89);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.nav-link::before {
+  bottom: -8px;
+  transform-origin: 0 50%;
+}
+.nav-link::after {
+  bottom: -14px;
+  transform-origin: 0 50%;
+  transition-delay: 0.1s;
+}
+.nav-link:hover::before,
+.nav-link:hover::after,
+.nav-link.is-active::before,
+.nav-link.is-active::after {
+  transform: translateZ(0) scaleX(1);
+}
+
+/* eltdf-pricing-lines : double trait 1px solide, 5px d'écart. */
+.pricing-leader {
+  position: relative;
+  border-bottom: 1px solid var(--wp-field-border);
+  bottom: 8px;
+  height: 1px;
+}
+.pricing-leader::after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid var(--wp-field-border);
+}
+
+/* Sélection de texte — teal #005e66 (identique au thème WP) */
+::selection {
+  background-color: var(--wp-teal);
+  color: var(--wp-surface);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-title-holder .decor svg path {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+  .section-title-holder.appear .decor svg path {
+    animation: none;
+  }
+  .pattern-holder svg path {
+    transition: none;
+    stroke-dashoffset: 0;
+  }
+}

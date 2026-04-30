@@ -1,0 +1,35 @@
+Export MySQL depuis OVH (fichiers seuls ne suffisent pas)
+=========================================================
+
+Export (phpMyAdmin)
+-------------------
+1. Connectez-vous à https://www.ovh.com/manager/ > Hébergements > Bases de données.
+2. Ouvrez phpMyAdmin pour la base utilisée par ce site (nom visible dans wp-config.php, clé DB_NAME).
+3. Onglet Exporter > méthode rapide ou personnalisée (structure + données) > SQL > Exécuter.
+4. Enregistrez le fichier, par exemple : import/dump.sql
+
+Import en local (Docker)
+------------------------
+1. cp .env.example .env
+2. Éditez .env : mots de passe locaux. Gardez MYSQL_DATABASE et MYSQL_USER identiques aux clés DB_NAME / DB_USER de wp-config.php pour simplifier l’import.
+3. Placez votre export dans import/ avec une extension reconnue par MariaDB au premier démarrage : .sql ou .sql.gz (un seul fichier d’init volumineux à la fois pour éviter les surprises).
+4. Éditez wordpress/wp-config.php :
+   - DB_HOST : mettez db (nom du service Docker, port MySQL par défaut 3306 à l’intérieur du réseau compose).
+   - DB_USER, DB_PASSWORD, DB_NAME : identiques aux variables MYSQL_* de votre .env local.
+5. docker compose up -d
+6. Site : http://localhost:8080
+
+Si la base existait déjà dans le volume Docker, supprimez le volume avant un nouvel import :
+  docker compose down -v
+  puis replacez le dump dans import/ et relancez docker compose up -d.
+
+Import manuel (base déjà initialisée sans votre dump)
+------------------------------------------------------
+  docker compose up -d
+  cd ce répertoire puis, en chargeant le .env :
+    set -a && source .env && set +a
+    docker compose exec -T db mariadb -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" < import/votre-dump.sql
+
+URLs du site
+-------------
+Si l’URL de production diffère de http://localhost:8080, il faudra mettre à jour siteurl/home dans la base (WP-CLI search-replace, ou plugin de migration, ou recherches/remplacements prudents en SQL). Les données sérialisées PHP cassent si on remplace des chaînes naïvement.

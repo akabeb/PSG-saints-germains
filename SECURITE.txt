@@ -1,0 +1,8 @@
+Sécurité (obligatoire)
+=====================
+
+1. Mot de passe FTP : il a été exposé dans un chat. Changez-le tout de suite dans le manager OVHcloud (Web Cloud > Hébergements > FTP-SSH > utilisateur FTP).
+
+2. Ne commitez pas wp-config.php ni les dumps SQL : ils sont listés dans .gitignore.
+
+3. Après migration vers un nouvel hébergeur, faites tourner les mots de passe base de données côté OVH / nouveau panel.
