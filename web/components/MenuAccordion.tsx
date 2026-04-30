@@ -72,7 +72,6 @@ function CategoryPanel({
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   function handleToggle() {
-    const willOpen = !open;
     onToggle();
     setTimeout(() => {
       if (!titleRef.current) return;
