@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 
 import { Footer } from "@/components/Footer";
+import { GoogleTagManager } from "@/components/GoogleTagManager";
 import { HtmlLangSync } from "@/components/HtmlLangSync";
 import { Navigation } from "@/components/Navigation";
 import { RestaurantJsonLd } from "@/components/RestaurantJsonLd";
@@ -27,6 +28,7 @@ export default async function LocaleLayout({
   return (
     <>
       <HtmlLangSync lang={localeMeta[typedLocale].htmlLang} />
+      <GoogleTagManager locale={typedLocale} />
       <RestaurantJsonLd locale={typedLocale} />
       <a
         href="#laurent-main"

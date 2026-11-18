@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { LaurentContainer } from "@/components/LaurentContainer";
+import { ManageCookiesButton } from "@/components/ManageCookiesButton";
 import { dict, type Locale } from "@/lib/i18n";
 import { getSiteSettings } from "@/lib/getSiteSettings";
 
@@ -92,6 +93,7 @@ export async function Footer({ locale }: Readonly<{ locale: Locale }>) {
           >
             {t.footer.legalLink}
           </Link>
+          <ManageCookiesButton label={t.footer.cookiesLink} />
         </nav>
 
         <p className="mt-6 font-body text-[12px] text-wp-ink/65">

@@ -3,18 +3,18 @@ import type { NextConfig } from "next";
 // Sources CSP autorisées pour le site principal
 const CSP_DIRECTIVES = [
   "default-src 'self'",
-  // Next.js App Router injecte des scripts inline pour l'hydratation
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  // Next.js App Router + Google Tag Manager (GTM-PBSB8XVM)
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://*.googletagmanager.com",
   // Styles inline (Tailwind / next/font) + Google Fonts
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   // Polices locales + Google Fonts CDN
   "font-src 'self' https://fonts.gstatic.com",
-  // Images : Sanity CDN, Unsplash, tuiles OpenStreetMap, blobs (next/image)
-  "img-src 'self' data: blob: https://cdn.sanity.io https://images.unsplash.com https://*.tile.openstreetmap.org",
-  // Appels réseau : API Sanity (REST + WebSocket pour le Studio live)
-  "connect-src 'self' https://*.sanity.io wss://*.sanity.io https://api.sanity.io",
-  // Embeds autorisés : Sanity Studio + carte OpenStreetMap (Infos pratiques / Contact)
-  "frame-src 'self' https://*.sanity.io https://www.openstreetmap.org",
+  // Images : Sanity CDN, Unsplash, tuiles OpenStreetMap, pixels GTM/GA4
+  "img-src 'self' data: blob: https://cdn.sanity.io https://images.unsplash.com https://*.tile.openstreetmap.org https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com",
+  // Appels réseau : API Sanity + Google Tag Manager / Google Analytics (Consent Mode v2)
+  "connect-src 'self' https://*.sanity.io wss://*.sanity.io https://api.sanity.io https://www.googletagmanager.com https://*.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net",
+  // Embeds autorisés : Sanity Studio + OpenStreetMap + GTM Tag Assistant Preview
+  "frame-src 'self' https://*.sanity.io https://www.openstreetmap.org https://www.googletagmanager.com",
   // Web workers (Next.js build chunks)
   "worker-src 'self' blob:",
   // Empêche le framing par des tiers

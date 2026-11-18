@@ -109,8 +109,15 @@ export type DictSchema = {
   };
   footer: {
     legalLink: string;
+    cookiesLink: string;
     alcoholWarning: string;
     walkInSummary: string;
+  };
+  cookies: {
+    bannerAria: string;
+    message: string;
+    accept: string;
+    decline: string;
   };
   legal: {
     heroTitle: string;
@@ -210,9 +217,17 @@ export const dict: Record<Locale, DictSchema> = {
     },
     footer: {
       legalLink: "Mentions légales",
+      cookiesLink: "Cookies",
       alcoholWarning:
         "L'abus d'alcool est dangereux pour la santé, à consommer avec modération.",
       walkInSummary: "Accueil sans réservation en continu",
+    },
+    cookies: {
+      bannerAria: "Préférences de cookies",
+      message:
+        "Nous utilisons Google Tag Manager / Analytics uniquement pour mesurer la fréquentation du site, sous réserve de votre accord.",
+      accept: "Accepter",
+      decline: "Refuser",
     },
     legal: {
       heroTitle: "Mentions légales",
@@ -232,7 +247,7 @@ export const dict: Record<Locale, DictSchema> = {
         "Ce site est hébergé par Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis (https://vercel.com).",
       privacyTitle: "3. Données personnelles & Cookies (RGPD)",
       privacyText:
-        "Ce site vitrine ne dépose aucun cookie publicitaire ni traceur de profilage. Lorsque vous consultez les pages « Infos pratiques » ou « Contact », une carte interactive OpenStreetMap est chargée directement depuis les serveurs de la fondation OpenStreetMap (https://www.openstreetmap.org). Si vous nous contactez par e-mail ou téléphone, vos coordonnées ne sont utilisées que pour répondre à votre demande. Conformément au RGPD et à la loi Informatique et Libertés, vous pouvez exercer vos droits d'accès, de rectification ou de suppression en écrivant à :",
+        "Ce site utilise Google Tag Manager (GTM-PBSB8XVM) à des fins exclusives de mesure d'audience, désactivé par défaut (Google Consent Mode v2) tant que vous n'avez pas cliqué sur « Accepter » dans le bandeau dédié. Vous pouvez modifier votre choix à tout moment via le lien « Cookies » en pied de page. Lorsque vous consultez les pages « Infos pratiques » ou « Contact », une carte OpenStreetMap est chargée depuis les serveurs de la fondation OpenStreetMap (https://www.openstreetmap.org). Conformément au RGPD et à la loi Informatique et Libertés, vous pouvez exercer vos droits d'accès, de rectification ou de suppression en écrivant à :",
       ipTitle: "4. Propriété intellectuelle & Informations réglementaires",
       ipText:
         "L'ensemble des textes, photographies, logos et éléments graphiques présents sur ce site sont protégés par le droit de la propriété intellectuelle. Toute reproduction non autorisée est interdite. Tous les prix affichés sur notre carte sont exprimés en euros, nets TTC et service compris. L'abus d'alcool est dangereux pour la santé, à consommer avec modération (Article L.3323-4 du Code de la santé publique).",
@@ -315,9 +330,17 @@ export const dict: Record<Locale, DictSchema> = {
     },
     footer: {
       legalLink: "Legal Notice",
+      cookiesLink: "Cookies",
       alcoholWarning:
         "Alcohol abuse is dangerous for your health, please drink responsibly.",
       walkInSummary: "Walk-ins welcome · Continuous service",
+    },
+    cookies: {
+      bannerAria: "Cookie preferences",
+      message:
+        "We use Google Tag Manager / Analytics solely to measure anonymous site traffic, subject to your consent.",
+      accept: "Accept",
+      decline: "Decline",
     },
     legal: {
       heroTitle: "Legal Notice",
@@ -337,7 +360,7 @@ export const dict: Record<Locale, DictSchema> = {
         "This website is hosted by Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, United States (https://vercel.com).",
       privacyTitle: "3. Personal Data & Cookies (GDPR)",
       privacyText:
-        "This website sets no advertising or tracking cookies. When you visit the Practical Info or Contact pages, an embedded OpenStreetMap frame is loaded from the OpenStreetMap Foundation servers (https://www.openstreetmap.org). If you contact us by email or phone, your details are used solely to answer your enquiry. Under GDPR, you may exercise your rights of access, rectification or erasure by writing to:",
+        "This website uses Google Tag Manager (GTM-PBSB8XVM) solely for audience measurement, disabled by default (Google Consent Mode v2) unless you click 'Accept'. You can change your preference anytime via the 'Cookies' link in the footer. When you visit the Practical Info or Contact pages, an OpenStreetMap frame is loaded from the OpenStreetMap Foundation (https://www.openstreetmap.org). Under GDPR, you may exercise your rights of access, rectification or erasure by writing to:",
       ipTitle: "4. Intellectual Property & Regulatory Information",
       ipText:
         "All texts, photographs, logos and graphic elements on this website are protected by intellectual property laws. Any unauthorised reproduction is prohibited. All menu prices are stated in euros, inclusive of VAT and service. Alcohol abuse is dangerous for your health, please drink responsibly.",
@@ -420,9 +443,17 @@ export const dict: Record<Locale, DictSchema> = {
     },
     footer: {
       legalLink: "Aviso legal",
+      cookiesLink: "Cookies",
       alcoholWarning:
         "El abuso de alcohol es perjudicial para la salud, consúmalo con moderación.",
       walkInSummary: "Sin reserva · Servicio continuo",
+    },
+    cookies: {
+      bannerAria: "Preferencias de cookies",
+      message:
+        "Utilizamos Google Tag Manager / Analytics únicamente para medir la audiencia del sitio, sujeto a su consentimiento.",
+      accept: "Aceptar",
+      decline: "Rechazar",
     },
     legal: {
       heroTitle: "Aviso legal",
@@ -442,7 +473,7 @@ export const dict: Record<Locale, DictSchema> = {
         "Este sitio está alojado por Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, Estados Unidos (https://vercel.com).",
       privacyTitle: "3. Datos personales y Cookies (RGPD)",
       privacyText:
-        "Este sitio web no instala cookies publicitarias ni rastreadores. Al consultar las páginas de Información práctica o Contacto, se carga un mapa interactivo desde los servidores de OpenStreetMap (https://www.openstreetmap.org). Si se pone en contacto con nosotros por correo o teléfono, sus datos se utilizan únicamente para responder a su consulta. Conforme al RGPD, puede ejercer sus derechos escribiendo a:",
+        "Este sitio web utiliza Google Tag Manager (GTM-PBSB8XVM) únicamente para la medición de audiencia, desactivado por defecto (Google Consent Mode v2) salvo que pulse « Aceptar ». Puede modificar su elección en cualquier momento desde el enlace « Cookies » en el pie de página. Al consultar Información práctica o Contacto, se carga un mapa desde OpenStreetMap (https://www.openstreetmap.org). Conforme al RGPD, puede ejercer sus derechos escribiendo a:",
       ipTitle: "4. Propiedad intelectual e información reglamentaria",
       ipText:
         "Todos los textos, fotografías, logotipos y elementos gráficos de este sitio están protegidos por derechos de propiedad intelectual. Todos los precios de nuestra carta están expresados en euros, IVA y servicio incluidos.",
@@ -525,9 +556,17 @@ export const dict: Record<Locale, DictSchema> = {
     },
     footer: {
       legalLink: "Note legali",
+      cookiesLink: "Cookie",
       alcoholWarning:
         "L'abuso di alcol è pericoloso per la salute, consumare con moderazione.",
       walkInSummary: "Senza prenotazione · Orario continuato",
+    },
+    cookies: {
+      bannerAria: "Preferenze sui cookie",
+      message:
+        "Utilizziamo Google Tag Manager / Analytics esclusivamente per misurare il traffico del sito, previo vostro consenso.",
+      accept: "Accetta",
+      decline: "Rifiuta",
     },
     legal: {
       heroTitle: "Note legali",
@@ -547,7 +586,7 @@ export const dict: Record<Locale, DictSchema> = {
         "Questo sito è ospitato da Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, Stati Uniti (https://vercel.com).",
       privacyTitle: "3. Dati personali e Cookie (GDPR)",
       privacyText:
-        "Questo sito non utilizza cookie pubblicitari o di profilazione. Visitando le pagine Info pratiche o Contatti viene caricata una mappa interattiva dai server OpenStreetMap (https://www.openstreetmap.org). Contattandoci via e-mail o telefono, i vostri recapiti vengono utilizzati esclusivamente per rispondere alla vostra richiesta. Ai sensi del GDPR, potete esercitare i vostri diritti scrivendo a:",
+        "Questo sito utilizza Google Tag Manager (GTM-PBSB8XVM) esclusivamente per la misurazione del traffico, disattivato per impostazione predefinita (Google Consent Mode v2) finché non cliccate su « Accetta ». Potete modificare la vostra scelta in qualsiasi momento tramite il link « Cookie » nel piè di pagina. Visitando Info pratiche o Contatti viene caricata una mappa da OpenStreetMap (https://www.openstreetmap.org). Ai sensi del GDPR, potete esercitare i vostri diritti scrivendo a:",
       ipTitle: "4. Proprietà intellettuale e informazioni normative",
       ipText:
         "Tutti i testi, le fotografie, i loghi e gli elementi grafici di questo sito sono protetti dal diritto d'autore. Tutti i prezzi indicati nel menù sono espressi in euro, IVA e servizio inclusi.",
@@ -630,9 +669,17 @@ export const dict: Record<Locale, DictSchema> = {
     },
     footer: {
       legalLink: "Impressum & Datenschutz",
+      cookiesLink: "Cookies",
       alcoholWarning:
         "Alkoholmissbrauch gefährdet Ihre Gesundheit – bitte genießen Sie verantwortungsbewusst.",
       walkInSummary: "Ohne Reservierung · Durchgehender Service",
+    },
+    cookies: {
+      bannerAria: "Cookie-Einstellungen",
+      message:
+        "Wir verwenden Google Tag Manager / Analytics ausschließlich zur anonymen Reichweitenmessung, vorbehaltlich Ihrer Zustimmung.",
+      accept: "Akzeptieren",
+      decline: "Ablehnen",
     },
     legal: {
       heroTitle: "Impressum & Datenschutz",
@@ -652,7 +699,7 @@ export const dict: Record<Locale, DictSchema> = {
         "Diese Website wird gehostet von Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA (https://vercel.com).",
       privacyTitle: "3. Personenbezogene Daten & Cookies (DSGVO)",
       privacyText:
-        "Diese Website setzt keine Werbe- oder Tracking-Cookies ein. Beim Aufruf der Seiten Praktische Infos oder Kontakt wird eine interaktive Karte von den Servern der OpenStreetMap Foundation geladen (https://www.openstreetmap.org). Wenn Sie uns per E-Mail oder Telefon kontaktieren, werden Ihre Angaben ausschließlich zur Bearbeitung Ihrer Anfrage verwendet. Gemäß DSGVO können Sie Ihre Rechte geltend machen unter:",
+        "Diese Website nutzt Google Tag Manager (GTM-PBSB8XVM) ausschließlich zur Reichweitenmessung, standardmäßig deaktiviert (Google Consent Mode v2), bis Sie auf „Akzeptieren“ klicken. Sie können Ihre Auswahl jederzeit über den Link „Cookies“ in der Fußzeile ändern. Auf den Seiten Praktische Infos und Kontakt wird eine Karte von OpenStreetMap geladen (https://www.openstreetmap.org). Gemäß DSGVO können Sie Ihre Rechte geltend machen unter:",
       ipTitle: "4. Urheberrecht & gesetzliche Hinweise",
       ipText:
         "Alle Texte, Fotografien, Logos und grafischen Elemente auf dieser Website sind urheberrechtlich geschützt. Sämtliche Preise auf unserer Karte verstehen sich in Euro inklusive Mehrwertsteuer und Bedienung.",
