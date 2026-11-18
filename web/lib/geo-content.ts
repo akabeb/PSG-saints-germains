@@ -12,22 +12,30 @@ export type GeoFaqItem = {
 };
 
 export type GeoLocaleContent = {
-  /** Titre de l'encadré Repères clés dans la section À propos */
   highlightsTitle: string;
-  /** Liste structurée <ul> de 4 repères factuels vérifiables */
   highlights: GeoHighlight[];
-  /** Paragraphe de synthèse factuel en tête de /la-carte */
+  /** Questions-réponses éditoriales sur l'accueil (couverture Query Fan-Out + FAQPage JSON-LD) */
+  homeFaq: GeoFaqItem[];
   menuPageLead: string;
-  /** Titre de la section éditoriale Questions fréquentes sur /infos-pratiques */
+  /** Bloc éditorial Savoir-faire sur /la-carte */
+  menuCraftTitle: string;
+  menuCraftText: string;
+  menuCraftBullets: string[];
   infosGuideEyebrow: string;
   infosGuideTitle: string;
-  /** Paragraphes éditoriaux autonomes (50–80 mots) couplés 1:1 au schéma FAQPage */
   infosFaq: GeoFaqItem[];
-  /** Bloc éditorial Groupes & Réceptions sur /contact */
   contactGroupsEyebrow: string;
   contactGroupsTitle: string;
   contactGroupsLead: string;
   contactGroupsBullets: string[];
+  /** Introduction factuelle en tête de /mentions-legales */
+  legalLead: string;
+  /** Liens contextuels internes dans <main> */
+  links: {
+    exploreMenu: string;
+    practicalInfo: string;
+    contactTeam: string;
+  };
 };
 
 export const geoContent: Record<Locale, GeoLocaleContent> = {
@@ -55,8 +63,37 @@ export const geoContent: Record<Locale, GeoLocaleContent> = {
           "Métros Saint-Germain-des-Prés (ligne 4) et Rue du Bac (ligne 12), terrasse parisienne, Wi-Fi gratuit, paiement CB dès 5 € et carte traduite en 5 langues (FR, EN, ES, IT, DE).",
       },
     ],
+    homeFaq: [
+      {
+        id: "offre-brasserie",
+        question: "Que propose Le Comptoir des Saints-Pères ?",
+        answer:
+          "Le Comptoir des Saints-Pères propose une cuisine de brasserie parisienne traditionnelle préparée sur place : œufs mayonnaise maison, escargots de Bourgogne, croques sur pain Poilâne, tartare de bœuf, entrecôte, salades repas, fromages affinés, jus pressés minute, vins de propriété et cocktails maison.",
+      },
+      {
+        id: "localisation-saint-germain",
+        question: "Où se situe Le Comptoir des Saints-Pères à Paris ?",
+        answer:
+          "Le bistrot est situé au 29 rue des Saints-Pères dans le 6e arrondissement de Paris, au cœur de Saint-Germain-des-Prés, à cinq minutes à pied du Musée d'Orsay, du Musée du Louvre et des stations de métro Saint-Germain-des-Prés (ligne 4) et Rue du Bac (ligne 12).",
+      },
+      {
+        id: "horaires-sans-reservation",
+        question: "Pourquoi choisir notre brasserie en service continu 7j/7 ?",
+        answer:
+          "Ouvert 7 jours sur 7 sans réservation du matin jusqu'au soir, l'établissement accueille librement les Parisiens et les voyageurs en salle ou en terrasse, du petit-déjeuner (7h–11h) au service brasserie continu (12h–22h), avec une carte traduite en cinq langues.",
+      },
+    ],
     menuPageLead:
-      "La carte du Comptoir des Saints-Pères réunit les grands classiques de la brasserie parisienne préparés sur place : entrées traditionnelles, grandes salades repas, croques dorés sur pain Poilâne, œufs plein air, viandes et poissons grillés, fromages au lait cru, jus pressés minute, vins de propriété au verre et cocktails maison. Tous nos tarifs sont affichés nets en euros, taxes et service compris.",
+      "La carte du Comptoir des Saints-Pères réunit les grands classiques de la brasserie parisienne préparés sur place au 29 rue des Saints-Pères (Paris 6e) : entrées traditionnelles, grandes salades repas, croques dorés sur pain Poilâne, œufs plein air, viandes et poissons grillés, fromages au lait cru, jus pressés minute, vins de propriété au verre et cocktails maison. Tous nos tarifs sont affichés nets en euros, taxes et service compris.",
+    menuCraftTitle: "Produits sélectionnés & maisons partenaires",
+    menuCraftText:
+      "Fidèle à la tradition des bistrots de Saint-Germain-des-Prés, Le Comptoir des Saints-Pères privilégie des produits frais travaillés minute et des artisans reconnus :",
+    menuCraftBullets: [
+      "Croques-Monsieur, Croques-Madame et tartines grillés sur le célèbre pain au levain de la maison Poilâne.",
+      "Œufs plein air pour nos omelettes minute et nos œufs au plat servis avec salade verte.",
+      "Glaces et sorbets artisanaux signés Lili & Enzo, accompagnant nos desserts maison (crème brûlée, mousse au chocolat, tarte Tatin tiède).",
+      "Cave française servie au verre (14 cL), au pichet (25 cL, 50 cL) ou à la bouteille (75 cL), de Brouilly à Chablis et Saint-Émilion.",
+    ],
     infosGuideEyebrow: "QUESTIONS PRATIQUES",
     infosGuideTitle: "Préparer votre visite à Saint-Germain-des-Prés",
     infosFaq: [
@@ -89,6 +126,13 @@ export const geoContent: Record<Locale, GeoLocaleContent> = {
       "Petits-déjeuners d'équipe ou rendez-vous matinaux : accueil dès 7h00 du lundi au vendredi à deux pas des maisons d'édition et galeries de la Rive Gauche.",
       "Objets oubliés, allergènes ou renseignements pratiques : réponse directe au 01 40 20 09 39 ou à christophe6eme@gmail.com.",
     ],
+    legalLead:
+      "La présente page rassemble les informations légales obligatoires du site officiel ausaintsperes.com, édité par la société SAS CHLOCERO exploitant la brasserie parisienne Le Comptoir des Saints-Pères au 29 rue des Saints-Pères (75006 Paris), conformément à la loi pour la confiance dans l'économie numérique (LCEN) et au Règlement général sur la protection des données (RGPD).",
+    links: {
+      exploreMenu: "Consulter la carte complète et les tarifs",
+      practicalInfo: "Voir les horaires 7j/7 et l'accès métro",
+      contactTeam: "Contacter le bistrot (téléphone & groupes)",
+    },
   },
 
   en: {
@@ -115,8 +159,37 @@ export const geoContent: Record<Locale, GeoLocaleContent> = {
           "Metro Saint-Germain-des-Prés (line 4) and Rue du Bac (line 12), Parisian sidewalk terrace, free Wi-Fi, credit cards accepted from €5, and full menu in 5 languages (FR, EN, ES, IT, DE).",
       },
     ],
+    homeFaq: [
+      {
+        id: "what-we-offer",
+        question: "What does Le Comptoir des Saints-Pères serve?",
+        answer:
+          "Le Comptoir des Saints-Pères serves authentic Parisian brasserie cuisine prepared fresh on site: homemade egg mayonnaise, Burgundy snails, toasted croques on Poilâne sourdough, beef tartare, ribeye steak, meal-sized salads, French cheeses, freshly squeezed juices, estate wines and house cocktails.",
+      },
+      {
+        id: "where-we-are-located",
+        question: "Where is Le Comptoir des Saints-Pères located in Paris?",
+        answer:
+          "The bistro is located at 29 rue des Saints-Pères in Paris's 6th arrondissement, in the heart of Saint-Germain-des-Prés, a five-minute walk from the Musée d'Orsay, the Louvre Museum, and Metro stations Saint-Germain-des-Prés (line 4) and Rue du Bac (line 12).",
+      },
+      {
+        id: "why-choose-continuous-service",
+        question: "Why choose our Left Bank brasserie with continuous walk-in service?",
+        answer:
+          "Open 7 days a week without reservation from morning until night, Le Comptoir des Saints-Pères welcomes guests indoors or on the sidewalk terrace for breakfast (7am–11am) and all-day brasserie dining (12pm–10pm), with menus in five languages.",
+      },
+    ],
     menuPageLead:
-      "The menu at Le Comptoir des Saints-Pères brings together classic Parisian brasserie dishes prepared fresh daily: traditional starters, meal-sized salads, toasted croques on Poilâne sourdough bread, free-range omelettes, grilled meats and salmon, French raw-milk cheeses, freshly squeezed juices, estate wines by the glass and house cocktails. All prices are net in euros, taxes and service included.",
+      "The menu at Le Comptoir des Saints-Pères brings together classic Parisian brasserie dishes prepared fresh daily at 29 rue des Saints-Pères (Paris 6th): traditional starters, meal-sized salads, toasted croques on Poilâne sourdough bread, free-range omelettes, grilled meats and salmon, French raw-milk cheeses, freshly squeezed juices, estate wines by the glass and house cocktails. All prices are net in euros, taxes and service included.",
+    menuCraftTitle: "Selected Ingredients & Artisan Partners",
+    menuCraftText:
+      "True to the heritage of Saint-Germain-des-Prés bistros, Le Comptoir des Saints-Pères works with fresh market produce and renowned French artisans:",
+    menuCraftBullets: [
+      "Croque-Monsieur, Croque-Madame and open-faced toasts served on iconic Poilâne country sourdough bread.",
+      "Free-range eggs used for all cooked-to-order plain, ham, cheese, mushroom and burrata omelettes.",
+      "Artisan ice creams and sorbets crafted by Lili & Enzo alongside house desserts (crème brûlée, chocolate mousse, warm tarte Tatin).",
+      "Curated French wine list served by the glass (14 cL), carafe (25 cL, 50 cL) or bottle (75 cL).",
+    ],
     infosGuideEyebrow: "VISITOR GUIDE",
     infosGuideTitle: "Planning Your Visit in Saint-Germain-des-Prés",
     infosFaq: [
@@ -149,6 +222,13 @@ export const geoContent: Record<Locale, GeoLocaleContent> = {
       "Business breakfasts & morning meetings: open from 7:00am Monday to Friday in the heart of the Left Bank gallery district.",
       "Lost property, allergen details or general enquiries: reach us directly at +33 1 40 20 09 39 or christophe6eme@gmail.com.",
     ],
+    legalLead:
+      "This page provides the mandatory statutory disclosures for the official website ausaintsperes.com, published by SAS CHLOCERO operating the Parisian brasserie Le Comptoir des Saints-Pères at 29 rue des Saints-Pères (75006 Paris, France), in accordance with French digital law (LCEN) and the European General Data Protection Regulation (GDPR).",
+    links: {
+      exploreMenu: "Explore our full menu and prices",
+      practicalInfo: "Check opening hours and Metro access",
+      contactTeam: "Contact the bistro (phone & groups)",
+    },
   },
 
   es: {
@@ -175,8 +255,37 @@ export const geoContent: Record<Locale, GeoLocaleContent> = {
           "Metro Saint-Germain-des-Prés (línea 4) y Rue du Bac (línea 12), terraza parisina, Wi-Fi gratuito, pago con tarjeta desde 5 € y carta en 5 idiomas (FR, EN, ES, IT, DE).",
       },
     ],
+    homeFaq: [
+      {
+        id: "que-ofrece-bistro",
+        question: "¿Qué ofrece Le Comptoir des Saints-Pères?",
+        answer:
+          "Le Comptoir des Saints-Pères ofrece cocina tradicional de brasserie parisina elaborada en casa: huevos con mayonesa, caracoles de Borgoña, croques en pan Poilâne, steak tartar, entrecot, ensaladas completas, quesos franceses, zumos naturales, vinos por copa y cócteles.",
+      },
+      {
+        id: "donde-esta-ubicado",
+        question: "¿Dónde se encuentra Le Comptoir des Saints-Pères en París?",
+        answer:
+          "El bistró está ubicado en el 29 rue des Saints-Pères, en el distrito 6 de París (Saint-Germain-des-Prés), a cinco minutos a pie del Museo de Orsay, del Museo del Louvre y de las estaciones de metro Saint-Germain-des-Prés (línea 4) y Rue du Bac (línea 12).",
+      },
+      {
+        id: "por-que-elegir-servicio-continuo",
+        question: "¿Por qué elegir nuestra brasserie con servicio continuo los 7 días?",
+        answer:
+          "Abierto los 7 días de la semana sin necesidad de reserva, el restaurante recibe a visitantes y parisinos en salón o terraza desde el desayuno (7:00–11:00) hasta la cena (12:00–22:00), con carta traducida íntegramente al español.",
+      },
+    ],
     menuPageLead:
-      "La carta de Le Comptoir des Saints-Pères reúne las grandes recetas de la brasserie parisina elaboradas a diario: entrantes tradicionales, ensaladas completas, croques dorados en pan Poilâne, tortillas de huevos camperos, carnes y salmón a la parrilla, quesos franceses, zumos recién exprimidos, vinos por copa y cócteles de la casa. Precios netos en euros, impuestos y servicio incluidos.",
+      "La carta de Le Comptoir des Saints-Pères reúne las grandes recetas de la brasserie parisina elaboradas a diario en el 29 rue des Saints-Pères (París 6): entrantes tradicionales, ensaladas completas, croques dorados en pan Poilâne, tortillas de huevos camperos, carnes y salmón a la parrilla, quesos franceses, zumos recién exprimidos, vinos por copa y cócteles de la casa. Precios netos en euros, impuestos y servicio incluidos.",
+    menuCraftTitle: "Productos frescos y artesanos colaboradores",
+    menuCraftText:
+      "Fiel a la tradición de los bistrós de Saint-Germain-des-Prés, Le Comptoir des Saints-Pères selecciona ingredientes frescos y casas artesanas de referencia:",
+    menuCraftBullets: [
+      "Croque-Monsieur, Croque-Madame y tostadas preparados con el célebre pan de masa madre Poilâne.",
+      "Huevos camperos para todas nuestras tortillas hechas al momento y huevos fritos con ensalada.",
+      "Helados y sorbetes artesanales de Lili & Enzo junto a nuestros postres caseros (crème brûlée, mousse de chocolate, tarta Tatin tibia).",
+      "Selección de vinos franceses servidos por copa (14 cL), jarra (25 cL, 50 cL) o botella (75 cL).",
+    ],
     infosGuideEyebrow: "GUÍA PRÁCTICA",
     infosGuideTitle: "Prepare su visita en Saint-Germain-des-Prés",
     infosFaq: [
@@ -209,6 +318,13 @@ export const geoContent: Record<Locale, GeoLocaleContent> = {
       "Desayunos profesionales y reuniones matinales: abiertos desde las 7:00 de lunes a viernes en el corazón de la Rive Gauche.",
       "Objetos olvidados, alérgenos o consultas prácticas: atención directa en el +33 1 40 20 09 39 o en christophe6eme@gmail.com.",
     ],
+    legalLead:
+      "Esta página reúne la información legal obligatoria del sitio web oficial ausaintsperes.com, editado por la sociedad SAS CHLOCERO que explota la brasserie parisina Le Comptoir des Saints-Pères en el 29 rue des Saints-Pères (75006 París, Francia), de conformidad con la legislación francesa (LCEN) y el Reglamento General de Protección de Datos (RGPD).",
+    links: {
+      exploreMenu: "Ver la carta completa y los precios",
+      practicalInfo: "Consultar horarios y cómo llegar en metro",
+      contactTeam: "Contactar con el bistró (teléfono y grupos)",
+    },
   },
 
   it: {
@@ -235,8 +351,37 @@ export const geoContent: Record<Locale, GeoLocaleContent> = {
           "Metro Saint-Germain-des-Prés (linea 4) e Rue du Bac (linea 12), terrazza parigina, Wi-Fi gratuito, pagamento con carta da 5 € e menù tradotto in 5 lingue (FR, EN, ES, IT, DE).",
       },
     ],
+    homeFaq: [
+      {
+        id: "cosa-propone-bistrot",
+        question: "Cosa propone Le Comptoir des Saints-Pères?",
+        answer:
+          "Le Comptoir des Saints-Pères propone una cucina tradizionale da brasserie parigina preparata al momento: uova con maionese fatta in casa, lumache di Borgogna, croque su pane Poilâne, tartare di manzo, entrecôte, grandi insalate, formaggi francesi, spremute fresche, vini al calice e cocktail.",
+      },
+      {
+        id: "dove-si-trova-parigi",
+        question: "Dove si trova Le Comptoir des Saints-Pères a Parigi?",
+        answer:
+          "Il bistrot si trova al 29 rue des Saints-Pères nel 6° arrondissement di Parigi, nel cuore di Saint-Germain-des-Prés, a cinque minuti a piedi dal Museo d'Orsay, dal Museo del Louvre e dalle fermate metro Saint-Germain-des-Prés (linea 4) e Rue du Bac (linea 12).",
+      },
+      {
+        id: "perche-scegliere-orario-continuato",
+        question: "Perché scegliere la nostra brasserie con orario continuato 7 giorni su 7?",
+        answer:
+          "Aperto 7 giorni su 7 senza prenotazione dalla mattina alla sera, il locale accoglie liberamente gli ospiti in sala o sulla terrazza parigina dalla colazione (7:00–11:00) alla cena (12:00–22:00), con il menù completo tradotto in italiano.",
+      },
+    ],
     menuPageLead:
-      "Il menù di Le Comptoir des Saints-Pères riunisce i grandi classici della brasserie parigina preparati in casa: antipasti tradizionali, ricche insalate, croque dorati su pane Poilâne, omelette di uova allevate all'aperto, carni e salmone alla griglia, formaggi a latte crudo, spremute fresche, vini al calice e cocktail della casa. Tutti i prezzi sono netti in euro, tasse e servizio inclusi.",
+      "Il menù di Le Comptoir des Saints-Pères riunisce i grandi classici della brasserie parigina preparati in casa al 29 rue des Saints-Pères (Parigi 6): antipasti tradizionali, ricche insalate, croque dorati su pane Poilâne, omelette di uova allevate all'aperto, carni e salmone alla griglia, formaggi a latte crudo, spremute fresche, vini al calice e cocktail della casa. Tutti i prezzi sono netti in euro, tasse e servizio inclusi.",
+    menuCraftTitle: "Ingredienti selezionati e artigiani partner",
+    menuCraftText:
+      "Fedele alla tradizione dei bistrot di Saint-Germain-des-Prés, Le Comptoir des Saints-Pères valorizza prodotti freschi e artigiani francesi d'eccellenza:",
+    menuCraftBullets: [
+      "Croque-Monsieur, Croque-Madame e bruschette preparati sull'iconico pane a lievitazione naturale Poilâne.",
+      "Uova da allevamento all'aperto per tutte le omelette espresse e le uova al tegamino con insalata.",
+      "Gelati e sorbetti artigianali firmati Lili & Enzo accanto ai dolci della casa (crème brûlée, mousse al cioccolato, tarte Tatin tiepida).",
+      "Cantina francese servita al calice (14 cL), in caraffa (25 cL, 50 cL) o in bottiglia (75 cL).",
+    ],
     infosGuideEyebrow: "GUIDA PRATICA",
     infosGuideTitle: "Organizzare la visita a Saint-Germain-des-Prés",
     infosFaq: [
@@ -269,6 +414,13 @@ export const geoContent: Record<Locale, GeoLocaleContent> = {
       "Colazioni di lavoro e incontri mattutini: apertura dalle 7:00 dal lunedì al venerdì nel cuore della Rive Gauche.",
       "Oggetti smarriti, allergeni o informazioni pratiche: risposta diretta al +33 1 40 20 09 39 o a christophe6eme@gmail.com.",
     ],
+    legalLead:
+      "Questa pagina raccoglie le note legali obbligatorie del sito ufficiale ausaintsperes.com, pubblicato dalla società SAS CHLOCERO che gestisce la brasserie parigina Le Comptoir des Saints-Pères al 29 rue des Saints-Pères (75006 Parigi, Francia), in conformità con la normativa francese (LCEN) e il Regolamento generale sulla protezione dei dati (GDPR).",
+    links: {
+      exploreMenu: "Scopri il menù completo e i prezzi",
+      practicalInfo: "Orari di apertura e come arrivare in metro",
+      contactTeam: "Contatta il bistrot (telefono e gruppi)",
+    },
   },
 
   de: {
@@ -295,8 +447,37 @@ export const geoContent: Record<Locale, GeoLocaleContent> = {
           "Metro Saint-Germain-des-Prés (Linie 4) und Rue du Bac (Linie 12), Pariser Terrasse, kostenloses WLAN, Kartenzahlung ab 5 € und Speisekarte in 5 Sprachen (FR, EN, ES, IT, DE).",
       },
     ],
+    homeFaq: [
+      {
+        id: "was-bietet-das-bistro",
+        question: "Was bietet das Le Comptoir des Saints-Pères an?",
+        answer:
+          "Das Le Comptoir des Saints-Pères serviert klassische Pariser Brasserie-Küche aus frischer Zubereitung: Eier-Mayonnaise, Burgunder Weinbergschnecken, Croques auf Poilâne-Brot, Rindertatar, Entrecôte, große Salate, französischen Käse, frisch gepresste Säfte, offene Weine und Hauscocktails.",
+      },
+      {
+        id: "wo-befindet-sich-das-bistro",
+        question: "Wo befindet sich das Le Comptoir des Saints-Pères in Paris?",
+        answer:
+          "Das Bistro liegt in der 29 rue des Saints-Pères im 6. Pariser Arrondissement (Saint-Germain-des-Prés), nur fünf Gehminuten vom Musée d'Orsay, dem Louvre sowie den Metrostationen Saint-Germain-des-Prés (Linie 4) und Rue du Bac (Linie 12) entfernt.",
+      },
+      {
+        id: "warum-durchgehender-service",
+        question: "Warum unsere Brasserie mit durchgehendem Service ohne Reservierung wählen?",
+        answer:
+          "An 7 Tagen pro Woche durchgehend ohne Reservierung geöffnet, empfängt das Haus Gäste im Gastraum oder auf der Pariser Terrasse vom Frühstück (7:00–11:00 Uhr) bis zum Abendessen (12:00–22:00 Uhr) mit einer vollständig auf Deutsch übersetzten Karte.",
+      },
+    ],
     menuPageLead:
-      "Die Speisekarte des Le Comptoir des Saints-Pères vereint frisch zubereitete Klassiker der Pariser Brasserie-Küche: traditionelle Vorspeisen, große Salate, knusprige Croques auf Poilâne-Brot, Omelettes aus Freilandeiern, Fleisch- und Lachsgerichte vom Grill, Rohmilchkäse, frisch gepresste Säfte, offene Weine und Hauscocktails. Alle Preise verstehen sich netto in Euro inklusive Steuern und Bedienung.",
+      "Die Speisekarte des Le Comptoir des Saints-Pères vereint frisch zubereitete Klassiker der Pariser Brasserie-Küche in der 29 rue des Saints-Pères (Paris 6.): traditionelle Vorspeisen, große Salate, knusprige Croques auf Poilâne-Brot, Omelettes aus Freilandeiern, Fleisch- und Lachsgerichte vom Grill, Rohmilchkäse, frisch gepresste Säfte, offene Weine und Hauscocktails. Alle Preise verstehen sich netto in Euro inklusive Steuern und Bedienung.",
+    menuCraftTitle: "Ausgewählte Zutaten & Handwerkspartner",
+    menuCraftText:
+      "Ganz in der Tradition der Bistros von Saint-Germain-des-Prés setzt das Le Comptoir des Saints-Pères auf frische Marktküche und renommierte französische Handwerksbetriebe:",
+    menuCraftBullets: [
+      "Croque-Monsieur, Croque-Madame und Röstbrote auf dem berühmten Sauerteigbrot der Bäckerei Poilâne.",
+      "Freilandeier für alle frisch zubereiteten Omelettes und Spiegeleier mit grünem Salat.",
+      "Handwerkliches Eis und Sorbets von Lili & Enzo neben unseren Hausdesserts (Crème brûlée, Mousse au Chocolat, lauwarme Tarte Tatin).",
+      "Französische Weinauswahl im Glas (14 cL), in der Karaffe (25 cL, 50 cL) oder als Flasche (75 cL).",
+    ],
     infosGuideEyebrow: "BESUCHERINFOS",
     infosGuideTitle: "Ihr Besuch in Saint-Germain-des-Prés",
     infosFaq: [
@@ -329,5 +510,12 @@ export const geoContent: Record<Locale, GeoLocaleContent> = {
       "Geschäftsfrühstück & Morgentermine: montags bis freitags bereits ab 7:00 Uhr im Herzen der Rive Gauche geöffnet.",
       "Fundsachen, Allergenauskünfte oder Rückfragen: direkter Kontakt unter +33 1 40 20 09 39 oder christophe6eme@gmail.com.",
     ],
+    legalLead:
+      "Diese Seite enthält die gesetzlichen Pflichtangaben der offiziellen Website ausaintsperes.com, herausgegeben von der Gesellschaft SAS CHLOCERO als Betreiberin der Pariser Brasserie Le Comptoir des Saints-Pères in der 29 rue des Saints-Pères (75006 Paris, Frankreich), gemäß französischem Telemediengesetz (LCEN) und der Datenschutz-Grundverordnung (DSGVO).",
+    links: {
+      exploreMenu: "Vollständige Speisekarte und Preise ansehen",
+      practicalInfo: "Öffnungszeiten und Metro-Anfahrt prüfen",
+      contactTeam: "Bistro kontaktieren (Telefon & Gruppen)",
+    },
   },
 };

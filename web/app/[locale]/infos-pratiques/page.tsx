@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { InfosMap } from "@/components/InfosMap";
@@ -172,6 +173,21 @@ export default async function InfosPratiquesPage({
                   </p>
                 </article>
               ))}
+            </div>
+
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-center">
+              <Link
+                href={`/${l}/la-carte`}
+                className="font-cta text-[11px] uppercase tracking-[0.22em] text-wp-accent underline decoration-wp-field-border/55 underline-offset-4 transition hover:text-wp-gold-dark"
+              >
+                {geo.links.exploreMenu}
+              </Link>
+              <Link
+                href={`/${l}/contact`}
+                className="font-cta text-[11px] uppercase tracking-[0.22em] text-wp-accent underline decoration-wp-field-border/55 underline-offset-4 transition hover:text-wp-gold-dark"
+              >
+                {geo.links.contactTeam}
+              </Link>
             </div>
           </div>
         </LaurentContainer>

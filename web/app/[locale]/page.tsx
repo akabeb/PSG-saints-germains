@@ -6,6 +6,7 @@ import { ContactSplit } from "@/components/ContactSplit";
 import { Hero } from "@/components/Hero";
 import { MenuSection } from "@/components/MenuSection";
 import { PageJsonLd } from "@/components/PageJsonLd";
+import { geoContent } from "@/lib/geo-content";
 import { getMenu } from "@/lib/getMenu";
 import { getSiteSettings } from "@/lib/getSiteSettings";
 import { isLocale, type Locale } from "@/lib/i18n";
@@ -48,6 +49,7 @@ export default async function HomePage({
         path=""
         title={`${settings.name} — ${settings.tagline}`}
         description={settings.description}
+        faqItems={geoContent[l].homeFaq}
         menuCategories={categories}
       />
       <Hero locale={l} />

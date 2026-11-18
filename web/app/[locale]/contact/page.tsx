@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { InfosMap } from "@/components/InfosMap";
@@ -218,7 +219,7 @@ export default async function ContactPage({
         className="border-y border-wp-field-border/25 bg-wp-warm/45 py-[70px]"
       >
         <LaurentContainer>
-          <div className="mx-auto max-w-3xl">
+          <article id="accueil-groupes" className="mx-auto max-w-3xl">
             <div className="text-center">
               <SectionTitle
                 id="titre-groupes-receptions"
@@ -238,7 +239,22 @@ export default async function ContactPage({
                 </li>
               ))}
             </ul>
-          </div>
+
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-center">
+              <Link
+                href={`/${l}/la-carte`}
+                className="font-cta text-[11px] uppercase tracking-[0.22em] text-wp-accent underline decoration-wp-field-border/55 underline-offset-4 transition hover:text-wp-gold-dark"
+              >
+                {geo.links.exploreMenu}
+              </Link>
+              <Link
+                href={`/${l}/infos-pratiques`}
+                className="font-cta text-[11px] uppercase tracking-[0.22em] text-wp-accent underline decoration-wp-field-border/55 underline-offset-4 transition hover:text-wp-gold-dark"
+              >
+                {geo.links.practicalInfo}
+              </Link>
+            </div>
+          </article>
         </LaurentContainer>
       </section>
 

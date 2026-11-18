@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { LaurentContainer } from "@/components/LaurentContainer";
 import { PageHero } from "@/components/PageHero";
 import { PageJsonLd } from "@/components/PageJsonLd";
+import { geoContent } from "@/lib/geo-content";
 import { getSiteSettings } from "@/lib/getSiteSettings";
 import { dict, isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/seo";
@@ -36,6 +38,7 @@ export default async function MentionsLegalesPage({
   if (!isLocale(locale)) notFound();
   const l = locale as Locale;
   const t = dict[l];
+  const geo = geoContent[l];
   const settings = await getSiteSettings(l);
 
   return (
@@ -52,8 +55,15 @@ export default async function MentionsLegalesPage({
 
       <section id="mentions-legales" className="bg-wp-surface py-[70px]">
         <LaurentContainer>
-          <div className="mx-auto max-w-3xl space-y-12 font-body text-[16px] leading-[1.85] text-wp-ink/90">
-            {/* 1. Éditeur */}
+          <article
+            id="informations-reglementaires"
+            className="mx-auto max-w-3xl space-y-12 font-body text-[16px] leading-[1.85] text-wp-ink/90"
+          >
+            <p className="geo-summary border-l-2 border-wp-field-border/55 pl-4 text-wp-ink/88">
+              {geo.legalLead}
+            </p>
+
+            {/* 1. Éditeur (en liste <ul>/<li> pour une extraction RAG intégrale) */}
             <div id="editeur">
               <h2
                 id="titre-editeur"
@@ -61,39 +71,65 @@ export default async function MentionsLegalesPage({
               >
                 {t.legal.editorTitle}
               </h2>
-              <dl className="grid gap-2 sm:grid-cols-[200px_1fr]">
-                <dt className="font-bold text-wp-ink">{t.legal.editorCompanyLabel}</dt>
-                <dd>{legalEntity.companyName}</dd>
-
-                <dt className="font-bold text-wp-ink">{t.legal.editorTradeLabel}</dt>
-                <dd>{settings.name}</dd>
-
-                <dt className="font-bold text-wp-ink">{t.legal.editorCapitalLabel}</dt>
-                <dd>{legalEntity.capital}</dd>
-
-                <dt className="font-bold text-wp-ink">{t.legal.editorRcsLabel}</dt>
-                <dd>{legalEntity.rcs}</dd>
-
-                <dt className="font-bold text-wp-ink">{t.legal.editorSiretLabel}</dt>
-                <dd>{legalEntity.siret}</dd>
-
-                <dt className="font-bold text-wp-ink">{t.legal.editorAddressLabel}</dt>
-                <dd>{legalEntity.registeredAddress}</dd>
-
-                <dt className="font-bold text-wp-ink">{t.legal.editorPhoneLabel}</dt>
-                <dd>
+              <ul className="m-0 list-none space-y-2 p-0">
+                <li>
+                  <strong className="font-bold text-wp-ink">
+                    {t.legal.editorCompanyLabel} :
+                  </strong>{" "}
+                  {legalEntity.companyName}.
+                </li>
+                <li>
+                  <strong className="font-bold text-wp-ink">
+                    {t.legal.editorTradeLabel} :
+                  </strong>{" "}
+                  {settings.name}.
+                </li>
+                <li>
+                  <strong className="font-bold text-wp-ink">
+                    {t.legal.editorCapitalLabel} :
+                  </strong>{" "}
+                  {legalEntity.capital}.
+                </li>
+                <li>
+                  <strong className="font-bold text-wp-ink">
+                    {t.legal.editorRcsLabel} :
+                  </strong>{" "}
+                  {legalEntity.rcs}.
+                </li>
+                <li>
+                  <strong className="font-bold text-wp-ink">
+                    {t.legal.editorSiretLabel} :
+                  </strong>{" "}
+                  {legalEntity.siret}.
+                </li>
+                <li>
+                  <strong className="font-bold text-wp-ink">
+                    {t.legal.editorAddressLabel} :
+                  </strong>{" "}
+                  {legalEntity.registeredAddress}.
+                </li>
+                <li>
+                  <strong className="font-bold text-wp-ink">
+                    {t.legal.editorPhoneLabel} :
+                  </strong>{" "}
                   <a href={settings.phoneHref} className="text-wp-accent hover:underline">
                     {settings.phone}
                   </a>
-                </dd>
-
-                <dt className="font-bold text-wp-ink">{t.legal.editorEmailLabel}</dt>
-                <dd>
-                  <a href={`mailto:${settings.email}`} className="text-wp-accent hover:underline">
+                  .
+                </li>
+                <li>
+                  <strong className="font-bold text-wp-ink">
+                    {t.legal.editorEmailLabel} :
+                  </strong>{" "}
+                  <a
+                    href={`mailto:${settings.email}`}
+                    className="text-wp-accent hover:underline"
+                  >
                     {settings.email}
                   </a>
-                </dd>
-              </dl>
+                  .
+                </li>
+              </ul>
             </div>
 
             {/* 2. Hébergement */}
@@ -115,7 +151,7 @@ export default async function MentionsLegalesPage({
               >
                 {t.legal.privacyTitle}
               </h2>
-              <p className="geo-summary">
+              <p>
                 {t.legal.privacyText}{" "}
                 <a
                   href={`mailto:${settings.email}`}
@@ -137,7 +173,28 @@ export default async function MentionsLegalesPage({
               </h2>
               <p>{t.legal.ipText}</p>
             </div>
-          </div>
+
+            <div className="flex flex-wrap items-center gap-6 border-t border-wp-field-border/25 pt-8">
+              <Link
+                href={`/${l}/la-carte`}
+                className="font-cta text-[11px] uppercase tracking-[0.22em] text-wp-accent underline decoration-wp-field-border/55 underline-offset-4 transition hover:text-wp-gold-dark"
+              >
+                {geo.links.exploreMenu}
+              </Link>
+              <Link
+                href={`/${l}/infos-pratiques`}
+                className="font-cta text-[11px] uppercase tracking-[0.22em] text-wp-accent underline decoration-wp-field-border/55 underline-offset-4 transition hover:text-wp-gold-dark"
+              >
+                {geo.links.practicalInfo}
+              </Link>
+              <Link
+                href={`/${l}/contact`}
+                className="font-cta text-[11px] uppercase tracking-[0.22em] text-wp-accent underline decoration-wp-field-border/55 underline-offset-4 transition hover:text-wp-gold-dark"
+              >
+                {geo.links.contactTeam}
+              </Link>
+            </div>
+          </article>
         </LaurentContainer>
       </section>
     </>

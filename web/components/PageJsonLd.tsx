@@ -27,6 +27,10 @@ function extractNumericEuroPrice(raw?: string): string | undefined {
   return m[1].replace(",", ".");
 }
 
+/**
+ * Émet chaque schéma de page (WebPage, BreadcrumbList, SpeakableSpecification, FAQPage, Menu)
+ * dans sa propre balise <script type="application/ld+json"> de premier niveau.
+ */
 export function PageJsonLd({
   locale,
   path,
@@ -46,22 +50,25 @@ export function PageJsonLd({
     ...breadcrumbs,
   ];
 
-  const graph: Record<string, unknown>[] = [
+  const schemas: Record<string, unknown>[] = [
     {
+      "@context": "https://schema.org",
       "@type": pageType,
       "@id": `${pageUrl}#webpage`,
       url: pageUrl,
       name: title,
       description,
       inLanguage: localeMeta[locale].htmlLang,
+      mainEntityOfPage: pageUrl,
       isPartOf: { "@id": `${base}/#website` },
-      about: { "@id": `${base}/#restaurant` },
+      about: { "@id": `${base}/#organization` },
       speakable: {
         "@type": "SpeakableSpecification",
         cssSelector: ["h1", ".geo-summary"],
       },
     },
     {
+      "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "@id": `${pageUrl}#breadcrumb`,
       itemListElement: trail.map((crumb, index) => ({
@@ -71,10 +78,20 @@ export function PageJsonLd({
         item: `${base}/${locale}${crumb.path}`,
       })),
     },
+    {
+      "@context": "https://schema.org",
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", ".geo-summary"],
+      xpath: [
+        "/html/head/title",
+        "/html/head/meta[@name='description']/@content",
+      ],
+    },
   ];
 
   if (faqItems && faqItems.length > 0) {
-    graph.push({
+    schemas.push({
+      "@context": "https://schema.org",
       "@type": "FAQPage",
       "@id": `${pageUrl}#faq`,
       mainEntity: faqItems.map((q) => ({
@@ -89,7 +106,8 @@ export function PageJsonLd({
   }
 
   if (menuCategories && menuCategories.length > 0) {
-    graph.push({
+    schemas.push({
+      "@context": "https://schema.org",
       "@type": "Menu",
       "@id": `${base}/${locale}/la-carte#menu`,
       name: title,
@@ -123,14 +141,14 @@ export function PageJsonLd({
   }
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@graph": graph,
-        }),
-      }}
-    />
+    <>
+      {schemas.map((schema, idx) => (
+        <script
+          key={idx}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
+    </>
   );
 }
