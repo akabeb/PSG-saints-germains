@@ -17,6 +17,7 @@ import { useEffect, useRef, useState } from "react";
  * Les paths des décor s'animent quand la section apparaît en viewport (stroke-dasharray:57 → 0).
  */
 type Props = {
+  id?: string;
   eyebrow?: string;
   title: string;
   subtitle?: string;
@@ -33,7 +34,7 @@ function DecorSvg() {
   );
 }
 
-export function SectionTitle({ eyebrow, title, subtitle, level = "h2", className = "" }: Props) {
+export function SectionTitle({ id, eyebrow, title, subtitle, level = "h2", className = "" }: Props) {
   const Heading = level;
   const ref = useRef<HTMLDivElement | null>(null);
   const [appear, setAppear] = useState(false);
@@ -67,7 +68,7 @@ export function SectionTitle({ eyebrow, title, subtitle, level = "h2", className
         <span className="decor decor-first">
           <DecorSvg />
         </span>
-        <Heading className="st-title">{title}</Heading>
+        <Heading id={id} className="st-title">{title}</Heading>
         <span className="decor decor-last">
           <DecorSvg />
         </span>

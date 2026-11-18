@@ -15,13 +15,16 @@ export async function ContactSplit({ locale }: Readonly<{ locale: Locale }>) {
     : FALLBACK_BG;
 
   return (
-    <section className="grid bg-wp-warm md:grid-cols-2">
+    <section id="nous-contacter" className="grid bg-wp-warm md:grid-cols-2">
       {/* Colonne gauche : coordonnées actionnables + horaires 7j/7 unifiés */}
       <div className="flex items-center justify-center px-6 py-20 text-center md:py-[120px]">
         <div className="max-w-md">
           <div className="flex items-center justify-center gap-4">
             <TitleDecor className="hidden shrink-0 sm:block" />
-            <h2 className="min-w-0 font-heading text-[28px] font-normal uppercase tracking-[0.2em] text-wp-accent sm:text-[36px] md:text-[42px]">
+            <h2
+              id="titre-nous-contacter"
+              className="min-w-0 font-heading text-[28px] font-normal uppercase tracking-[0.2em] text-wp-accent sm:text-[36px] md:text-[42px]"
+            >
               {settings.contactTitle}
             </h2>
             <TitleDecor className="hidden shrink-0 sm:block" />
@@ -57,9 +60,11 @@ export async function ContactSplit({ locale }: Readonly<{ locale: Locale }>) {
 
           {settings.hoursLines.length > 0 && (
             <div className="mt-6 border-y border-wp-field-border/25 py-4 font-body text-[15px] leading-[1.8] text-wp-ink/85">
-              {settings.hoursLines.map((line, i) => (
-                <p key={i}>{line}</p>
-              ))}
+              <ul className="m-0 list-none p-0">
+                {settings.hoursLines.map((line, i) => (
+                  <li key={i}>{line}</li>
+                ))}
+              </ul>
               <p className="mt-1.5 font-script text-[18px] text-wp-gold-dark">
                 {t.contact.walkInNote}
               </p>

@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { InfosMap } from "@/components/InfosMap";
 import { LaurentContainer } from "@/components/LaurentContainer";
 import { PageHero } from "@/components/PageHero";
+import { PageJsonLd } from "@/components/PageJsonLd";
 import { SectionTitle } from "@/components/SectionTitle";
+import { geoContent } from "@/lib/geo-content";
 import { getSiteSettings } from "@/lib/getSiteSettings";
 import { dict, isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/seo";
@@ -36,34 +38,47 @@ export default async function InfosPratiquesPage({
   if (!isLocale(locale)) notFound();
   const l = locale as Locale;
   const t = dict[l];
+  const geo = geoContent[l];
   const settings = await getSiteSettings(l);
+  const metaDesc = `${settings.address} · ${settings.phone} — ${settings.hoursLines.join(", ")}`;
 
   return (
     <>
+      <PageJsonLd
+        locale={l}
+        path="/infos-pratiques"
+        title={settings.infosHeroTitle}
+        description={metaDesc}
+        pageType="AboutPage"
+        breadcrumbs={[{ name: settings.infosHeroTitle, path: "/infos-pratiques" }]}
+        faqItems={geo.infosFaq}
+      />
+
       <PageHero title={settings.infosHeroTitle} locale={l} />
 
-      <section className="bg-wp-surface py-[70px]">
+      <section id="horaires" className="bg-wp-surface py-[70px]">
         <LaurentContainer>
           <SectionTitle
+            id="titre-horaires"
             eyebrow={settings.hoursEyebrow}
             title={settings.hoursTitle}
           />
           {settings.hoursLines.length > 0 && (
-            <div className="mt-6 text-center font-body text-[17px] leading-[1.9] tracking-[0.5px] text-wp-ink/90">
+            <ul className="m-0 mt-6 list-none p-0 text-center font-body text-[17px] leading-[1.9] tracking-[0.5px] text-wp-ink/90">
               {settings.hoursLines.map((line, i) => (
-                <p key={i}>{line}</p>
+                <li key={i}>{line}</li>
               ))}
-            </div>
+            </ul>
           )}
-          <p className="mx-auto mt-4 max-w-xl text-center font-script text-[20px] text-wp-gold-dark">
+          <p className="geo-summary mx-auto mt-4 max-w-xl text-center font-script text-[20px] text-wp-gold-dark">
             {t.infos.walkInBanner}
           </p>
         </LaurentContainer>
       </section>
 
-      <section className="bg-wp-surface pb-[70px]">
+      <section id="adresse" className="bg-wp-surface pb-[70px]">
         <LaurentContainer>
-          <SectionTitle title={settings.addressTitle} />
+          <SectionTitle id="titre-adresse" title={settings.addressTitle} />
           <div className="mt-8 space-y-2 text-center font-body text-[16px] leading-[1.9] tracking-[0.5px] text-wp-ink/90">
             <p>
               <a
@@ -112,16 +127,52 @@ export default async function InfosPratiquesPage({
         </LaurentContainer>
       </section>
 
-      <section className="bg-wp-surface pb-[70px]">
+      <section id="itineraire" className="bg-wp-surface pb-[70px]">
         <LaurentContainer>
           <div className="mx-auto max-w-3xl">
             <SectionTitle
+              id="titre-itineraire"
               title={settings.directionsTitle}
               subtitle={settings.directionsText}
             />
             <p className="mt-6 text-center font-body text-[16px] leading-[1.75] tracking-[0.5px] text-wp-ink/85">
               {settings.directionsMetro}
             </p>
+          </div>
+        </LaurentContainer>
+      </section>
+
+      {/* Paragraphes éditoriaux autonomes (couverture Query Fan-Out + parité 100 % avec FAQPage JSON-LD) */}
+      <section
+        id="questions-pratiques"
+        className="border-t border-wp-field-border/25 bg-wp-warm/45 py-[70px]"
+      >
+        <LaurentContainer>
+          <div className="mx-auto max-w-3xl">
+            <div className="mb-12 text-center">
+              <SectionTitle
+                id="titre-questions-pratiques"
+                eyebrow={geo.infosGuideEyebrow}
+                title={geo.infosGuideTitle}
+              />
+            </div>
+
+            <div className="space-y-10">
+              {geo.infosFaq.map((item) => (
+                <article
+                  key={item.id}
+                  id={item.id}
+                  className="border-l-2 border-wp-field-border/55 pl-5"
+                >
+                  <h3 className="m-0 font-heading text-[17px] font-normal uppercase tracking-[0.14em] text-wp-accent sm:text-[18px]">
+                    {item.question}
+                  </h3>
+                  <p className="mt-2.5 font-body text-[15.5px] leading-[1.8] tracking-[0.3px] text-wp-ink/88">
+                    {item.answer}
+                  </p>
+                </article>
+              ))}
+            </div>
           </div>
         </LaurentContainer>
       </section>

@@ -21,9 +21,9 @@ export const site = {
   name: "Le Comptoir des Saints-Pères",
   tagline: "Brasserie parisienne au cœur de Saint-Germain-des-Prés",
   welcome:
-    "Bienvenue au Comptoir des Saints-Pères, authentique bistrot parisien situé à Saint-Germain-des-Prés.",
+    "Le Comptoir des Saints-Pères est une brasserie parisienne traditionnelle située au 29 rue des Saints-Pères (Paris 6e), au cœur de Saint-Germain-des-Prés. Ouvert 7j/7 en service continu sans réservation, le bistrot sert petits-déjeuners, plats maison, croques sur pain Poilâne et vins de propriété en salle ou en terrasse.",
   description:
-    "Authentique bistrot parisien au 29 rue des Saints-Pères (Paris 6e) : cuisine de brasserie en continu sans réservation, vins et esprit Saint-Germain — ouvert 7j/7.",
+    "Le Comptoir des Saints-Pères, authentique bistrot et brasserie parisienne au 29 rue des Saints-Pères (Paris 6e, Saint-Germain-des-Prés) : cuisine maison en service continu 7j/7 sans réservation, terrasse, vins et cocktails à 5 min du Louvre et d'Orsay.",
   address: "29 Rue des Saints-Pères, 75006 Paris",
   addressUrl:
     "https://www.google.com/maps/place/Le+Comptoir+des+Saints-P%C3%A8res/@48.8562766,2.3319344,21z/data=!4m6!3m5!1s0x47e671d7de37c30d:0x4d72509d349ce56e!8m2!3d48.8564091!4d2.3318364!16s%2Fg%2F1thx7y17",
@@ -39,7 +39,7 @@ export const site = {
   aboutEyebrow: "L'histoire du Comptoir des Saints-Pères",
   aboutTitle: "À propos du bistrot",
   aboutText:
-    "Installez-vous là où Hemingway s'attablait, où Picasso déjeunait.\nL'équipe du Comptoir des Saints-Pères vous accueille à Saint-Germain-des-Prés, dans un bistrot parisien chargé d'histoire.",
+    "Installez-vous là où Hemingway s'attablait, où Picasso déjeunait. Situé à cinq minutes à pied du Musée d'Orsay, du Musée du Louvre et de l'église de Saint-Germain-des-Prés, Le Comptoir des Saints-Pères perpétue l'esprit des bistrots historiques de la Rive Gauche : cuisine de brasserie préparée sur place, œufs plein air, croques dorés sur pain Poilâne, fromages affinés, glaces artisanales et vins français servis au verre ou à la bouteille.",
 
   contactTitle: "Nous contacter",
   contactDays: "Ouvert 7j/7 — Accueil sans réservation en continu",
@@ -57,9 +57,9 @@ export const site = {
   addressTitle: "ADRESSE",
   directionsTitle: "Itinéraire",
   directionsText:
-    "Le Comptoir des Saints-Pères se situe entre le Musée d'Orsay, le Musée du Louvre et l'église de Saint-Germain-des-Prés.",
+    "Le Comptoir des Saints-Pères vous accueille au 29 rue des Saints-Pères (75006 Paris), sur la Rive Gauche, à cinq minutes à pied du Musée d'Orsay, du Pont du Carrousel menant au Musée du Louvre, de l'École des Beaux-Arts et de l'église de Saint-Germain-des-Prés.",
   directionsMetro:
-    "Métros Saint-Germain-des-Prés (ligne 4) et Rue du Bac (ligne 12)",
+    "Métros Saint-Germain-des-Prés (ligne 4, à 3 min) et Rue du Bac (ligne 12, à 5 min) · Bus 39, 63, 68, 86, 95",
   mapLat: 48.8564091,
   mapLng: 2.3318364,
 };
@@ -90,15 +90,15 @@ export const siteByLocale: Record<Exclude<Locale, "fr">, LocalizedSiteCopy> = {
   en: {
     tagline: "Parisian Brasserie in the heart of Saint-Germain-des-Prés",
     welcome:
-      "Welcome to Le Comptoir des Saints-Pères, an authentic Parisian bistro in Saint-Germain-des-Prés.",
+      "Le Comptoir des Saints-Pères is a traditional Parisian brasserie at 29 rue des Saints-Pères (Paris 6th), in the heart of Saint-Germain-des-Prés. Open 7 days a week with continuous walk-in service, our bistro serves French breakfasts, homemade dishes, Poilâne bread croques and estate wines indoors or on the terrace.",
     description:
-      "Authentic Parisian bistro at 29 rue des Saints-Pères (Paris 6th): traditional brasserie cuisine, continuous walk-in service, fine wines and Saint-Germain spirit — open 7 days a week.",
+      "Le Comptoir des Saints-Pères, authentic Parisian bistro and brasserie at 29 rue des Saints-Pères (Paris 6th, Saint-Germain-des-Prés): homemade French cuisine, continuous walk-in service 7 days a week, terrace and wines 5 minutes from the Louvre and Musée d'Orsay.",
     menuEyebrow: "Bistro kitchen & cellar",
     menuTitle: "Our Menu",
     aboutEyebrow: "The story of Le Comptoir des Saints-Pères",
     aboutTitle: "About the bistro",
     aboutText:
-      "Settle in where Hemingway used to sit, where Picasso had lunch.\nThe team at Le Comptoir des Saints-Pères welcomes you to Saint-Germain-des-Prés, in a historic Parisian bistro.",
+      "Settle in where Hemingway used to sit and Picasso had lunch. Located a five-minute walk from the Musée d'Orsay, the Louvre Museum and Saint-Germain-des-Prés church, Le Comptoir des Saints-Pères keeps the Left Bank bistro tradition alive with freshly prepared brasserie classics, free-range eggs, Poilâne sourdough croques, French cheeses, artisan ice creams and wines served by the glass or bottle.",
     contactTitle: "Contact us",
     contactDays: "Open 7 days a week — Walk-ins welcome, continuous service",
     contactCtaLabel: "Follow us on Instagram",
@@ -114,22 +114,22 @@ export const siteByLocale: Record<Exclude<Locale, "fr">, LocalizedSiteCopy> = {
     addressTitle: "ADDRESS",
     directionsTitle: "Getting Here",
     directionsText:
-      "Le Comptoir des Saints-Pères is located between the Musée d'Orsay, the Louvre Museum and Saint-Germain-des-Prés church.",
+      "Le Comptoir des Saints-Pères welcomes you at 29 rue des Saints-Pères (75006 Paris) on the Left Bank, within a five-minute walk of the Musée d'Orsay, the Pont du Carrousel leading to the Louvre Museum, the École des Beaux-Arts and Saint-Germain-des-Prés church.",
     directionsMetro:
-      "Metro Saint-Germain-des-Prés (line 4) and Rue du Bac (line 12)",
+      "Metro Saint-Germain-des-Prés (line 4, 3 min walk) and Rue du Bac (line 12, 5 min walk) · Bus 39, 63, 68, 86, 95",
   },
   es: {
     tagline: "Brasserie parisina en el corazón de Saint-Germain-des-Prés",
     welcome:
-      "Bienvenido a Le Comptoir des Saints-Pères, auténtico bistró parisino en Saint-Germain-des-Prés.",
+      "Le Comptoir des Saints-Pères es una brasserie parisina tradicional situada en el 29 rue des Saints-Pères (París 6), en el corazón de Saint-Germain-des-Prés. Abierto los 7 días con servicio continuo sin reserva, el bistró ofrece desayunos, cocina casera, croques en pan Poilâne y vinos franceses en salón o terraza.",
     description:
-      "Auténtico bistró parisino en 29 rue des Saints-Pères (París 6): cocina tradicional de brasserie sin reserva, vinos selectos y espíritu de Saint-Germain — abierto los 7 días.",
+      "Le Comptoir des Saints-Pères, auténtico bistró y brasserie parisina en 29 rue des Saints-Pères (París 6, Saint-Germain-des-Prés): cocina francesa casera con servicio continuo los 7 días sin reserva, terraza y vinos a 5 min del Louvre y del Museo de Orsay.",
     menuEyebrow: "Cocina de bistró y bodega",
     menuTitle: "La Carta",
     aboutEyebrow: "La historia de Le Comptoir des Saints-Pères",
     aboutTitle: "Sobre el bistró",
     aboutText:
-      "Siéntese donde solía sentarse Hemingway, donde almorzaba Picasso.\nEl equipo de Le Comptoir des Saints-Pères le da la bienvenida en Saint-Germain-des-Prés, en un bistró parisino cargado de historia.",
+      "Siéntese donde solía escribir Hemingway y almorzaba Picasso. A cinco minutos a pie del Museo de Orsay, del Museo del Louvre y de la iglesia de Saint-Germain-des-Prés, Le Comptoir des Saints-Pères mantiene vivo el espíritu de los bistrós históricos de la Rive Gauche con platos de brasserie caseros, huevos camperos, croques en pan Poilâne, quesos franceses, helados artesanales y vinos por copa o botella.",
     contactTitle: "Contacto",
     contactDays: "Abierto los 7 días — Servicio continuo sin reserva",
     contactCtaLabel: "Síganos en Instagram",
@@ -145,22 +145,22 @@ export const siteByLocale: Record<Exclude<Locale, "fr">, LocalizedSiteCopy> = {
     addressTitle: "DIRECCIÓN",
     directionsTitle: "Cómo llegar",
     directionsText:
-      "Le Comptoir des Saints-Pères se encuentra entre el Museo de Orsay, el Museo del Louvre y la iglesia de Saint-Germain-des-Prés.",
+      "Le Comptoir des Saints-Pères le recibe en el 29 rue des Saints-Pères (75006 París), en la Rive Gauche, a cinco minutos a pie del Museo de Orsay, del Puente del Carrusel hacia el Museo del Louvre, de la Escuela de Bellas Artes y de la iglesia de Saint-Germain-des-Prés.",
     directionsMetro:
-      "Metro Saint-Germain-des-Prés (línea 4) y Rue du Bac (línea 12)",
+      "Metro Saint-Germain-des-Prés (línea 4, a 3 min) y Rue du Bac (línea 12, a 5 min) · Autobuses 39, 63, 68, 86, 95",
   },
   it: {
     tagline: "Brasserie parigina nel cuore di Saint-Germain-des-Prés",
     welcome:
-      "Benvenuti a Le Comptoir des Saints-Pères, autentico bistrot parigino a Saint-Germain-des-Prés.",
+      "Le Comptoir des Saints-Pères è una brasserie parigina tradizionale situata al 29 rue des Saints-Pères (Parigi 6), nel cuore di Saint-Germain-des-Prés. Aperto 7 giorni su 7 con orario continuato senza prenotazione, il bistrot serve colazioni, piatti fatti in casa, croque su pane Poilâne e vini francesi in sala o in terrazza.",
     description:
-      "Autentico bistrot parigino al 29 rue des Saints-Pères (Parigi 6): cucina tradizionale di brasserie con orario continuato senza prenotazione, vini scelti e spirito Saint-Germain — aperto 7 giorni su 7.",
+      "Le Comptoir des Saints-Pères, autentico bistrot e brasserie parigina al 29 rue des Saints-Pères (Parigi 6, Saint-Germain-des-Prés): cucina francese fatta in casa con orario continuato 7 giorni su 7 senza prenotazione, terrazza e vini a 5 min dal Louvre e dal Museo d'Orsay.",
     menuEyebrow: "Cucina di bistrot e cantina",
     menuTitle: "Il Menù",
     aboutEyebrow: "La storia di Le Comptoir des Saints-Pères",
     aboutTitle: "Il bistrot",
     aboutText:
-      "Accomodatevi dove sedeva Hemingway, dove pranzava Picasso.\nIl team di Le Comptoir des Saints-Pères vi accoglie a Saint-Germain-des-Prés, in uno storico bistrot parigino.",
+      "Accomodatevi dove sedeva Hemingway e pranzava Picasso. Situato a cinque minuti a piedi dal Museo d'Orsay, dal Museo del Louvre e dalla chiesa di Saint-Germain-des-Prés, Le Comptoir des Saints-Pères custodisce l'anima autentica dei bistrot della Rive Gauche con specialità di brasserie fatte in casa, uova allevate all'aperto, croque dorati su pane Poilâne, formaggi francesi, gelati artigianali e vini al calice o in bottiglia.",
     contactTitle: "Contattaci",
     contactDays: "Aperto 7 giorni su 7 — Orario continuato senza prenotazione",
     contactCtaLabel: "Seguici su Instagram",
@@ -176,22 +176,22 @@ export const siteByLocale: Record<Exclude<Locale, "fr">, LocalizedSiteCopy> = {
     addressTitle: "INDIRIZZO",
     directionsTitle: "Come raggiungerci",
     directionsText:
-      "Le Comptoir des Saints-Pères si trova tra il Museo d'Orsay, il Museo del Louvre e la chiesa di Saint-Germain-des-Prés.",
+      "Le Comptoir des Saints-Pères vi accoglie al 29 rue des Saints-Pères (75006 Parigi), sulla Rive Gauche, a cinque minuti a piedi dal Museo d'Orsay, dal Pont du Carrousel verso il Museo del Louvre, dall'École des Beaux-Arts e dalla chiesa di Saint-Germain-des-Prés.",
     directionsMetro:
-      "Metro Saint-Germain-des-Prés (linea 4) e Rue du Bac (linea 12)",
+      "Metro Saint-Germain-des-Prés (linea 4, a 3 min) e Rue du Bac (linea 12, a 5 min) · Autobus 39, 63, 68, 86, 95",
   },
   de: {
     tagline: "Pariser Brasserie im Herzen von Saint-Germain-des-Prés",
     welcome:
-      "Willkommen im Le Comptoir des Saints-Pères, einem authentischen Pariser Bistro in Saint-Germain-des-Prés.",
+      "Das Le Comptoir des Saints-Pères ist eine traditionelle Pariser Brasserie in der 29 rue des Saints-Pères (Paris 6.) im Herzen von Saint-Germain-des-Prés. Das Bistro ist 7 Tage die Woche durchgehend ohne Reservierung geöffnet und serviert Frühstück, hausgemachte Klassiker, Croques auf Poilâne-Brot und französische Weine im Saal oder auf der Terrasse.",
     description:
-      "Authentisches Pariser Bistro in der 29 rue des Saints-Pères (Paris 6.): klassische Brasserie-Küche ohne Reservierung, ausgewählte Weine und das Flair von Saint-Germain — 7 Tage geöffnet.",
+      "Le Comptoir des Saints-Pères, authentisches Pariser Bistro und Brasserie in der 29 rue des Saints-Pères (Paris 6., Saint-Germain-des-Prés): hausgemachte französische Küche, 7 Tage durchgehender Service ohne Reservierung, Terrasse und Weine 5 Gehminuten vom Louvre und Musée d'Orsay.",
     menuEyebrow: "Bistro-Küche & Weinkeller",
     menuTitle: "Speisekarte",
     aboutEyebrow: "Die Geschichte des Le Comptoir des Saints-Pères",
     aboutTitle: "Über das Bistro",
     aboutText:
-      "Nehmen Sie dort Platz, wo einst Hemingway saß und Picasso zu Mittag aß.\nDas Team des Le Comptoir des Saints-Pères empfängt Sie in Saint-Germain-des-Prés in einem geschichtsträchtigen Pariser Bistro.",
+      "Nehmen Sie dort Platz, wo einst Hemingway saß und Picasso zu Mittag aß. Nur fünf Gehminuten vom Musée d'Orsay, dem Louvre und der Kirche Saint-Germain-des-Prés entfernt pflegt das Le Comptoir des Saints-Pères die Tradition der historischen Bistros der Rive Gauche: frisch zubereitete Brasserie-Gerichte, Freilandeier, knusprige Croques auf Poilâne-Brot, gereifter französischer Käse, handwerkliches Eis und Weine im offenen Ausschank oder als Flasche.",
     contactTitle: "Kontakt",
     contactDays: "7 Tage geöffnet — Durchgehender Service ohne Reservierung",
     contactCtaLabel: "Folgen Sie uns auf Instagram",
@@ -207,9 +207,9 @@ export const siteByLocale: Record<Exclude<Locale, "fr">, LocalizedSiteCopy> = {
     addressTitle: "ADRESSE",
     directionsTitle: "Anfahrt",
     directionsText:
-      "Das Le Comptoir des Saints-Pères liegt zwischen dem Musée d'Orsay, dem Louvre und der Kirche Saint-Germain-des-Prés.",
+      "Das Le Comptoir des Saints-Pères empfängt Sie in der 29 rue des Saints-Pères (75006 Paris) am linken Seine-Ufer, fünf Gehminuten vom Musée d'Orsay, der Brücke Pont du Carrousel zum Louvre, der École des Beaux-Arts und der Kirche Saint-Germain-des-Prés entfernt.",
     directionsMetro:
-      "Metro Saint-Germain-des-Prés (Linie 4) und Rue du Bac (Linie 12)",
+      "Metro Saint-Germain-des-Prés (Linie 4, 3 Gehminuten) und Rue du Bac (Linie 12, 5 Gehminuten) · Bus 39, 63, 68, 86, 95",
   },
 };
 

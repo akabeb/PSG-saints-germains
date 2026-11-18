@@ -17,7 +17,10 @@ export async function Hero({ locale }: Readonly<{ locale: Locale }>) {
   const title = settings.heroTitle?.trim() || settings.name;
 
   return (
-    <section className="relative flex min-h-[540px] w-full items-center justify-center overflow-hidden bg-wp-panel pt-24 pb-16 md:min-h-[700px] md:pt-28">
+    <section
+      id="accueil"
+      className="relative flex min-h-[540px] w-full items-center justify-center overflow-hidden bg-wp-panel pt-24 pb-16 md:min-h-[700px] md:pt-28"
+    >
       <Image
         src={heroSrc}
         alt={t.aria.heroImageAlt}
@@ -46,7 +49,7 @@ export async function Hero({ locale }: Readonly<{ locale: Locale }>) {
           <TitleDecor className="hidden shrink-0 sm:block" />
         </div>
 
-        <p className="mx-auto mt-4 max-w-2xl font-body text-[16px] font-normal leading-[28px] tracking-[0.5px] text-white/95 sm:text-[17px]">
+        <p className="geo-summary mx-auto mt-4 max-w-2xl font-body text-[15.5px] font-normal leading-[1.7] tracking-[0.4px] text-white/95 sm:text-[16.5px]">
           {settings.welcome}
         </p>
 

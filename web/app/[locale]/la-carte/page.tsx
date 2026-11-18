@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 
 import { MenuSection } from "@/components/MenuSection";
 import { PageHero } from "@/components/PageHero";
+import { PageJsonLd } from "@/components/PageJsonLd";
+import { geoContent } from "@/lib/geo-content";
+import { getMenu } from "@/lib/getMenu";
 import { getSiteSettings } from "@/lib/getSiteSettings";
 import { dict, isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/seo";
@@ -22,7 +25,7 @@ export async function generateMetadata({
     locale: l,
     path: "/la-carte",
     title: settings.menuTitle || t.menu_page.heroTitle,
-    description: settings.description,
+    description: geoContent[l].menuPageLead,
   });
 }
 
@@ -35,12 +38,25 @@ export default async function LaCartePage({
   if (!isLocale(locale)) notFound();
   const l = locale as Locale;
   const t = dict[l];
-  const settings = await getSiteSettings(l);
+  const geo = geoContent[l];
+  const [settings, categories] = await Promise.all([
+    getSiteSettings(l),
+    getMenu(l),
+  ]);
+  const pageTitle = settings.menuTitle || t.menu_page.heroTitle;
 
   return (
     <>
-      <PageHero title={settings.menuTitle || t.menu_page.heroTitle} locale={l} />
-      <MenuSection locale={l} hideSectionHeading />
+      <PageJsonLd
+        locale={l}
+        path="/la-carte"
+        title={pageTitle}
+        description={geo.menuPageLead}
+        breadcrumbs={[{ name: pageTitle, path: "/la-carte" }]}
+        menuCategories={categories}
+      />
+      <PageHero title={pageTitle} locale={l} />
+      <MenuSection locale={l} hideSectionHeading leadText={geo.menuPageLead} />
     </>
   );
 }

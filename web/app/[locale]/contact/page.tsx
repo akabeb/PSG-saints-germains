@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { InfosMap } from "@/components/InfosMap";
 import { LaurentContainer } from "@/components/LaurentContainer";
 import { PageHero } from "@/components/PageHero";
+import { PageJsonLd } from "@/components/PageJsonLd";
 import { SectionTitle } from "@/components/SectionTitle";
+import { geoContent } from "@/lib/geo-content";
 import { getSiteSettings } from "@/lib/getSiteSettings";
 import { dict, isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/seo";
@@ -37,21 +39,32 @@ export default async function ContactPage({
   if (!isLocale(locale)) notFound();
   const l = locale as Locale;
   const t = dict[l];
+  const geo = geoContent[l];
   const settings = await getSiteSettings(l);
   const pageTitle = settings.contactTitle || t.contact.pageTitle;
   const formspreeAction = process.env.NEXT_PUBLIC_FORMSPREE_ACTION?.trim();
+  const metaDesc = `${settings.address} — ${settings.phone} — ${settings.email}`;
 
   return (
     <>
+      <PageJsonLd
+        locale={l}
+        path="/contact"
+        title={pageTitle}
+        description={metaDesc}
+        pageType="ContactPage"
+        breadcrumbs={[{ name: pageTitle, path: "/contact" }]}
+      />
+
       <PageHero title={pageTitle} locale={l} />
 
-      <section className="bg-wp-surface py-[70px]">
+      <section id="contact-direct" className="bg-wp-surface py-[70px]">
         <LaurentContainer>
           <div className="mx-auto max-w-3xl text-center">
             <p className="font-script text-[22px] text-wp-gold-dark">
               {t.contact.walkInNote}
             </p>
-            <p className="mx-auto mt-3 max-w-xl font-body text-[16px] leading-relaxed text-wp-ink/85">
+            <p className="geo-summary mx-auto mt-3 max-w-2xl font-body text-[16px] leading-relaxed text-wp-ink/85">
               {t.contact.groupNote}
             </p>
 
@@ -136,8 +149,11 @@ export default async function ContactPage({
             ) : null}
 
             <div className="mt-14 grid gap-10 border-t border-wp-field-border/25 pt-12 md:grid-cols-2">
-              <div>
-                <h2 className="mb-4 font-heading text-[16px] font-normal uppercase tracking-[0.2em] text-wp-accent">
+              <div id="coordonnees">
+                <h2
+                  id="titre-coordonnees"
+                  className="mb-4 font-heading text-[16px] font-normal uppercase tracking-[0.2em] text-wp-accent"
+                >
                   {t.contact.addressLabel}
                 </h2>
                 <p className="font-body text-[16px] leading-[1.9] tracking-[0.5px] text-wp-ink/90">
@@ -167,18 +183,18 @@ export default async function ContactPage({
                 </p>
               </div>
 
-              <div>
-                <h2 className="mb-4 font-heading text-[16px] font-normal uppercase tracking-[0.2em] text-wp-accent">
+              <div id="horaires-contact">
+                <h2
+                  id="titre-horaires-contact"
+                  className="mb-4 font-heading text-[16px] font-normal uppercase tracking-[0.2em] text-wp-accent"
+                >
                   {t.contact.hoursLabel}
                 </h2>
-                {(settings.hoursLines as string[]).map((line, i) => (
-                  <p
-                    key={i}
-                    className="font-body text-[16px] leading-[1.9] tracking-[0.5px] text-wp-ink/90"
-                  >
-                    {line}
-                  </p>
-                ))}
+                <ul className="m-0 list-none p-0 font-body text-[16px] leading-[1.9] tracking-[0.5px] text-wp-ink/90">
+                  {(settings.hoursLines as string[]).map((line, i) => (
+                    <li key={i}>{line}</li>
+                  ))}
+                </ul>
               </div>
             </div>
 
@@ -196,10 +212,41 @@ export default async function ContactPage({
         </LaurentContainer>
       </section>
 
-      <section className="bg-wp-surface pb-[70px]">
+      {/* Section éditoriale Groupes & Réceptions (liste structurée <ul>/<li>) */}
+      <section
+        id="groupes-receptions"
+        className="border-y border-wp-field-border/25 bg-wp-warm/45 py-[70px]"
+      >
+        <LaurentContainer>
+          <div className="mx-auto max-w-3xl">
+            <div className="text-center">
+              <SectionTitle
+                id="titre-groupes-receptions"
+                eyebrow={geo.contactGroupsEyebrow}
+                title={geo.contactGroupsTitle}
+                subtitle={geo.contactGroupsLead}
+              />
+            </div>
+
+            <ul className="m-0 mt-8 list-none space-y-4 p-0 font-body text-[15.5px] leading-[1.8] text-wp-ink/88">
+              {geo.contactGroupsBullets.map((bullet, idx) => (
+                <li
+                  key={idx}
+                  className="border-l-2 border-wp-field-border/55 pl-4"
+                >
+                  {bullet}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </LaurentContainer>
+      </section>
+
+      <section id="itineraire-contact" className="bg-wp-surface py-[70px]">
         <LaurentContainer>
           <div className="mx-auto max-w-3xl">
             <SectionTitle
+              id="titre-itineraire-contact"
               title={settings.directionsTitle}
               subtitle={settings.directionsText}
             />

@@ -10,7 +10,8 @@ import { CHEVRON_GRID_SVG } from "@/lib/svg-assets";
 export async function MenuSection({
   locale,
   hideSectionHeading = false,
-}: Readonly<{ locale: Locale; hideSectionHeading?: boolean }>) {
+  leadText,
+}: Readonly<{ locale: Locale; hideSectionHeading?: boolean; leadText?: string }>) {
   const [categories, settings] = await Promise.all([
     getMenu(locale),
     getSiteSettings(locale),
@@ -33,11 +34,18 @@ export async function MenuSection({
           {!hideSectionHeading && (settings.menuEyebrow || settings.menuTitle) && (
             <div className="mb-10 text-center">
               <SectionTitle
+                id="titre-la-carte"
                 eyebrow={settings.menuEyebrow || undefined}
                 title={settings.menuTitle}
               />
             </div>
           )}
+
+          {leadText ? (
+            <p className="geo-summary mx-auto mb-10 max-w-3xl text-center font-body text-[15.5px] leading-[1.8] tracking-[0.3px] text-wp-ink/85">
+              {leadText}
+            </p>
+          ) : null}
 
           <MenuAccordion
             categories={categories}

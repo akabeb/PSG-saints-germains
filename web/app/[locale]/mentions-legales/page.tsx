@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { LaurentContainer } from "@/components/LaurentContainer";
 import { PageHero } from "@/components/PageHero";
+import { PageJsonLd } from "@/components/PageJsonLd";
 import { getSiteSettings } from "@/lib/getSiteSettings";
 import { dict, isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/seo";
@@ -39,14 +40,25 @@ export default async function MentionsLegalesPage({
 
   return (
     <>
+      <PageJsonLd
+        locale={l}
+        path="/mentions-legales"
+        title={t.legal.heroTitle}
+        description={t.legal.metaDescription}
+        breadcrumbs={[{ name: t.legal.heroTitle, path: "/mentions-legales" }]}
+      />
+
       <PageHero title={t.legal.heroTitle} locale={l} />
 
-      <section className="bg-wp-surface py-[70px]">
+      <section id="mentions-legales" className="bg-wp-surface py-[70px]">
         <LaurentContainer>
           <div className="mx-auto max-w-3xl space-y-12 font-body text-[16px] leading-[1.85] text-wp-ink/90">
             {/* 1. Éditeur */}
-            <div>
-              <h2 className="mb-4 font-heading text-[22px] font-normal uppercase tracking-[0.18em] text-wp-accent">
+            <div id="editeur">
+              <h2
+                id="titre-editeur"
+                className="mb-4 font-heading text-[22px] font-normal uppercase tracking-[0.18em] text-wp-accent"
+              >
                 {t.legal.editorTitle}
               </h2>
               <dl className="grid gap-2 sm:grid-cols-[200px_1fr]">
@@ -85,19 +97,25 @@ export default async function MentionsLegalesPage({
             </div>
 
             {/* 2. Hébergement */}
-            <div>
-              <h2 className="mb-4 font-heading text-[22px] font-normal uppercase tracking-[0.18em] text-wp-accent">
+            <div id="hebergement">
+              <h2
+                id="titre-hebergement"
+                className="mb-4 font-heading text-[22px] font-normal uppercase tracking-[0.18em] text-wp-accent"
+              >
                 {t.legal.hostTitle}
               </h2>
               <p>{t.legal.hostText}</p>
             </div>
 
             {/* 3. RGPD & Cookies */}
-            <div>
-              <h2 className="mb-4 font-heading text-[22px] font-normal uppercase tracking-[0.18em] text-wp-accent">
+            <div id="donnees-cookies">
+              <h2
+                id="titre-donnees-cookies"
+                className="mb-4 font-heading text-[22px] font-normal uppercase tracking-[0.18em] text-wp-accent"
+              >
                 {t.legal.privacyTitle}
               </h2>
-              <p>
+              <p className="geo-summary">
                 {t.legal.privacyText}{" "}
                 <a
                   href={`mailto:${settings.email}`}
@@ -110,8 +128,11 @@ export default async function MentionsLegalesPage({
             </div>
 
             {/* 4. Propriété intellectuelle & réglementation CHR */}
-            <div>
-              <h2 className="mb-4 font-heading text-[22px] font-normal uppercase tracking-[0.18em] text-wp-accent">
+            <div id="propriete-intellectuelle">
+              <h2
+                id="titre-propriete-intellectuelle"
+                className="mb-4 font-heading text-[22px] font-normal uppercase tracking-[0.18em] text-wp-accent"
+              >
                 {t.legal.ipTitle}
               </h2>
               <p>{t.legal.ipText}</p>
