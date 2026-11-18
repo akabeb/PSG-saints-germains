@@ -198,6 +198,26 @@ export default async function ContactPage({
                 {settings.contactCtaLabel}
               </a>
             )}
+
+            {/* Fiche pratique structurée (5 repères explicites dans la langue active) */}
+            <div className="mx-auto mt-12 max-w-3xl border border-wp-field-border/35 bg-wp-warm/35 px-6 py-6 text-left sm:px-8">
+              <h2
+                id="fiche-pratique-contact"
+                className="mb-4 text-center font-heading text-[15px] font-normal uppercase tracking-[0.2em] text-wp-gold-dark"
+              >
+                {geo.practicalFactsTitle}
+              </h2>
+              <ul className="practical-facts m-0 list-none space-y-2.5 p-0 font-body text-[15px] leading-[1.7] text-wp-ink/90">
+                {geo.practicalFacts.map((fact, idx) => (
+                  <li key={idx}>
+                    <strong className="font-bold text-wp-accent">
+                      {fact.label} :
+                    </strong>{" "}
+                    {fact.value}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </LaurentContainer>
       </section>
@@ -228,6 +248,20 @@ export default async function ContactPage({
                 </li>
               ))}
             </ul>
+
+            {/* 2 paragraphes éditoriaux autonomes (couplés 1:1 à FAQPage JSON-LD dans la langue active) */}
+            <div className="mt-12 space-y-8 border-t border-wp-field-border/25 pt-10">
+              {geo.contactFaq.map((q) => (
+                <div key={q.id} id={q.id}>
+                  <h3 className="m-0 font-heading text-[16px] font-normal uppercase tracking-[0.14em] text-wp-accent sm:text-[17px]">
+                    {q.question}
+                  </h3>
+                  <p className="mt-2 font-body text-[15.5px] leading-[1.8] tracking-[0.3px] text-wp-ink/88">
+                    {q.answer}
+                  </p>
+                </div>
+              ))}
+            </div>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-center">
               <Link

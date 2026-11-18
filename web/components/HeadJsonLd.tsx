@@ -1,7 +1,7 @@
 import { geoContent } from "@/lib/geo-content";
 import { getMenu } from "@/lib/getMenu";
 import { getSiteSettings } from "@/lib/getSiteSettings";
-import { dict, localeMeta, type Locale } from "@/lib/i18n";
+import { dict, localeMeta, locales, type Locale } from "@/lib/i18n";
 import { legalEntity, siteUrl } from "@/lib/site";
 
 function extractNumericEuroPrice(raw?: string): string | undefined {
@@ -12,8 +12,9 @@ function extractNumericEuroPrice(raw?: string): string | undefined {
 }
 
 /**
- * Injecte l'intégralité des schémas JSON-LD directement dans le <head> serveur
- * (un bloc <script type="application/ld+json"> de premier niveau par schéma).
+ * Injecte dans <head> les schémas Schema.org strictement localisés dans la langue active (`locale`) :
+ * - @graph fondamental (Organization + Restaurant/FoodEstablishment/LocalBusiness + WebSite)
+ * - Schémas de page dédiés (ContactPage, WebPage, BreadcrumbList, SpeakableSpecification, Menu, FAQPage)
  */
 export async function HeadJsonLd({
   locale,
@@ -22,6 +23,7 @@ export async function HeadJsonLd({
   const base = siteUrl.replace(/\/$/, "");
   const subPath = pathname.replace(new RegExp(`^/${locale}`), "") || "";
   const pageUrl = `${base}/${locale}${subPath}`;
+  const langCode = localeMeta[locale].htmlLang;
 
   const t = dict[locale];
   const geo = geoContent[locale];
@@ -70,10 +72,10 @@ export async function HeadJsonLd({
     },
   ];
 
-  // Métadonnées de page selon la route active
+  // Métadonnées strictement traduites selon la langue et la route active
   let pageTitle = `${settings.name} — ${settings.tagline}`;
   let pageDescription = settings.description;
-  let pageType: "WebPage" | "AboutPage" | "ContactPage" = "WebPage";
+  let pageType: "WebPage" | "ContactPage" = "WebPage";
   const breadcrumbs: { name: string; path: string }[] = [
     { name: t.nav.home, path: "" },
   ];
@@ -84,124 +86,110 @@ export async function HeadJsonLd({
     faqItems = geo.homeFaq;
     includeMenu = true;
   } else if (subPath === "/la-carte") {
-    pageTitle = settings.menuTitle || t.menu_page.heroTitle;
+    const localizedMenuLabel = settings.menuTitle || t.menu_page.heroTitle;
+    pageTitle = `${localizedMenuLabel} — ${settings.name}`;
     pageDescription = geo.menuPageLead;
-    breadcrumbs.push({ name: pageTitle, path: "/la-carte" });
+    breadcrumbs.push({ name: localizedMenuLabel, path: "/la-carte" });
     includeMenu = true;
   } else if (subPath === "/infos-pratiques") {
-    pageTitle = settings.infosHeroTitle;
+    const localizedInfosLabel = settings.infosHeroTitle;
+    pageTitle = `${localizedInfosLabel} — ${settings.name}`;
     pageDescription = `${settings.address} · ${settings.phone} — ${settings.hoursLines.join(", ")}`;
-    pageType = "AboutPage";
-    breadcrumbs.push({ name: pageTitle, path: "/infos-pratiques" });
+    pageType = "ContactPage";
+    breadcrumbs.push({ name: localizedInfosLabel, path: "/infos-pratiques" });
     faqItems = geo.infosFaq;
   } else if (subPath === "/contact") {
-    pageTitle = settings.contactTitle || t.contact.pageTitle;
+    const localizedContactLabel = settings.contactTitle || t.contact.pageTitle;
+    pageTitle = `${localizedContactLabel} — ${settings.name}`;
     pageDescription = `${settings.address} — ${settings.phone} — ${settings.email}`;
     pageType = "ContactPage";
-    breadcrumbs.push({ name: pageTitle, path: "/contact" });
+    breadcrumbs.push({ name: localizedContactLabel, path: "/contact" });
+    faqItems = geo.contactFaq;
   } else if (subPath === "/mentions-legales") {
-    pageTitle = t.legal.heroTitle;
+    pageTitle = `${t.legal.heroTitle} — ${settings.name}`;
     pageDescription = t.legal.metaDescription;
-    breadcrumbs.push({ name: pageTitle, path: "/mentions-legales" });
+    breadcrumbs.push({ name: t.legal.heroTitle, path: "/mentions-legales" });
   }
 
+  // 1. Graphe d'entité principal (Restaurant + FoodEstablishment + LocalBusiness + Organization + WebSite)
+  const coreGraphSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["Restaurant", "FoodEstablishment", "LocalBusiness"],
+        "@id": `${base}/#restaurant`,
+        parentOrganization: { "@id": `${base}/#organization` },
+        name: settings.name,
+        url: `${base}/${locale}`,
+        inLanguage: langCode,
+        description: settings.description,
+        logo: `${base}/assets/logo.png`,
+        image: [
+          `${base}/assets/hero-cover.jpg`,
+          `${base}/assets/COMPTOIR-OUR-STORY.jpg`,
+          `${base}/assets/COMPTOIR-PRESSION.jpg`,
+        ],
+        telephone: e164Phone,
+        email: settings.email,
+        servesCuisine: geo.servesCuisine,
+        priceRange: "€€",
+        currenciesAccepted: "EUR",
+        paymentAccepted: geo.paymentAccepted,
+        acceptsReservations: false,
+        address: postalAddress,
+        geo: geoCoordinates,
+        openingHoursSpecification,
+        hasMenu: `${base}/${locale}/la-carte`,
+        hasMap: settings.addressUrl,
+        sameAs,
+      },
+      {
+        "@type": "Organization",
+        "@id": `${base}/#organization`,
+        name: settings.name,
+        legalName: legalEntity.companyName,
+        taxID: legalEntity.siret,
+        url: `${base}/${locale}`,
+        logo: `${base}/assets/logo.png`,
+        description: settings.description,
+        address: postalAddress,
+        contactPoint: [
+          {
+            "@type": "ContactPoint",
+            telephone: e164Phone,
+            email: settings.email,
+            contactType: geo.contactTypeLabel,
+            areaServed: "FR",
+            availableLanguage: [...locales],
+          },
+        ],
+        sameAs,
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${base}/#website`,
+        name: settings.name,
+        url: `${base}/${locale}`,
+        description: settings.description,
+        inLanguage: langCode,
+        publisher: { "@id": `${base}/#restaurant` },
+      },
+    ],
+  };
+
+  // 2. Schémas spécifiques à la page active (tous strictement dans la langue `locale`)
   const schemas: Record<string, unknown>[] = [
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "@id": `${base}/#organization`,
-      name: settings.name,
-      legalName: legalEntity.companyName,
-      taxID: legalEntity.siret,
-      url: `${base}/${locale}`,
-      logo: `${base}/assets/logo.png`,
-      image: `${base}/assets/hero-cover.jpg`,
-      description: settings.description,
-      telephone: e164Phone,
-      email: settings.email,
-      address: postalAddress,
-      contactPoint: [
-        {
-          "@type": "ContactPoint",
-          telephone: e164Phone,
-          email: settings.email,
-          contactType: "customer service",
-          areaServed: "FR",
-          availableLanguage: ["fr", "en", "es", "it", "de"],
-        },
-      ],
-      sameAs,
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "@id": `${base}/#website`,
-      url: `${base}/${locale}`,
-      name: settings.name,
-      description: settings.description,
-      inLanguage: localeMeta[locale].htmlLang,
-      publisher: { "@id": `${base}/#organization` },
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "@id": `${base}/#localbusiness`,
-      parentOrganization: { "@id": `${base}/#organization` },
-      name: settings.name,
-      description: settings.description,
-      url: `${base}/${locale}`,
-      logo: `${base}/assets/logo.png`,
-      image: `${base}/assets/hero-cover.jpg`,
-      telephone: e164Phone,
-      email: settings.email,
-      priceRange: "€€",
-      currenciesAccepted: "EUR",
-      paymentAccepted: "Cash, Credit Card",
-      hasMap: settings.addressUrl,
-      address: postalAddress,
-      geo: geoCoordinates,
-      openingHoursSpecification,
-      sameAs,
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "Restaurant",
-      "@id": `${base}/#restaurant`,
-      parentOrganization: { "@id": `${base}/#organization` },
-      name: settings.name,
-      description: settings.description,
-      url: `${base}/${locale}`,
-      logo: `${base}/assets/logo.png`,
-      image: [
-        `${base}/assets/hero-cover.jpg`,
-        `${base}/assets/COMPTOIR-OUR-STORY.jpg`,
-        `${base}/assets/COMPTOIR-PRESSION.jpg`,
-      ],
-      telephone: e164Phone,
-      email: settings.email,
-      priceRange: "€€",
-      currenciesAccepted: "EUR",
-      paymentAccepted: "Cash, Credit Card",
-      servesCuisine: ["French", "Brasserie", "Bistro"],
-      acceptsReservations: false,
-      hasMenu: `${base}/${locale}/la-carte`,
-      hasMap: settings.addressUrl,
-      address: postalAddress,
-      geo: geoCoordinates,
-      openingHoursSpecification,
-      sameAs,
-    },
+    coreGraphSchema,
     {
       "@context": "https://schema.org",
       "@type": pageType,
       "@id": `${pageUrl}#webpage`,
-      url: pageUrl,
       name: pageTitle,
+      url: pageUrl,
       description: pageDescription,
-      inLanguage: localeMeta[locale].htmlLang,
-      mainEntityOfPage: pageUrl,
+      inLanguage: langCode,
       isPartOf: { "@id": `${base}/#website` },
-      about: { "@id": `${base}/#organization` },
+      mainEntity: { "@id": `${base}/#restaurant` },
       speakable: {
         "@type": "SpeakableSpecification",
         cssSelector: ["h1", ".geo-summary"],
@@ -218,15 +206,6 @@ export async function HeadJsonLd({
         item: `${base}/${locale}${crumb.path}`,
       })),
     },
-    {
-      "@context": "https://schema.org",
-      "@type": "SpeakableSpecification",
-      cssSelector: ["h1", ".geo-summary"],
-      xpath: [
-        "/html/head/title",
-        "/html/head/meta[@name='description']/@content",
-      ],
-    },
   ];
 
   if (faqItems && faqItems.length > 0) {
@@ -234,6 +213,7 @@ export async function HeadJsonLd({
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "@id": `${pageUrl}#faq`,
+      inLanguage: langCode,
       mainEntity: faqItems.map((q) => ({
         "@type": "Question",
         name: q.question,
@@ -248,18 +228,22 @@ export async function HeadJsonLd({
   if (includeMenu) {
     const menuCategories = await getMenu(locale);
     if (menuCategories.length > 0) {
+      const localizedMenuLabel = settings.menuTitle || t.menu_page.heroTitle;
       schemas.push({
         "@context": "https://schema.org",
         "@type": "Menu",
         "@id": `${base}/${locale}/la-carte#menu`,
-        name: settings.menuTitle || t.menu_page.heroTitle,
-        inLanguage: localeMeta[locale].htmlLang,
+        name: `${localizedMenuLabel} — ${settings.name}`,
+        url: `${base}/${locale}/la-carte`,
+        inLanguage: langCode,
+        mainEntityOfPage: `${base}/${locale}/la-carte`,
         hasMenuSection: menuCategories.map((cat) => {
           const dishes = cat.items.filter((i) => i.kind !== "divider");
+          const sectionDescription = cat.intro ?? geo.categoryLeads[cat._id];
           return {
             "@type": "MenuSection",
             name: cat.title,
-            ...(cat.intro ? { description: cat.intro } : {}),
+            ...(sectionDescription ? { description: sectionDescription } : {}),
             hasMenuItem: dishes.map((d) => {
               const numericPrice = extractNumericEuroPrice(
                 d.price ?? cat.singlePrice,

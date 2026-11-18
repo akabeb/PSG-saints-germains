@@ -128,16 +128,19 @@ function PricingItem({
 
 function CategoryPanel({
   category,
+  categoryLead,
   open,
   onToggle,
   allergensLabel,
 }: Readonly<{
   category: MenuCategoryData;
+  categoryLead?: string;
   open: boolean;
   onToggle: () => void;
   allergensLabel: string;
 }>) {
   const groups = groupCategoryItems(category.items);
+  const introProse = category.intro ?? categoryLead;
 
   return (
     <details id={category._id} open={open} className="group/cat">
@@ -163,9 +166,9 @@ function CategoryPanel({
       </summary>
 
       <div className="border-t border-wp-field-border/60 py-[22px] pb-4">
-        {category.intro ? (
-          <p className="mb-4 font-body text-[14px] italic tracking-[0.3px] text-wp-ink/80">
-            {category.intro}
+        {introProse ? (
+          <p className="mb-5 max-w-[70ch] font-body text-[14.5px] leading-relaxed tracking-[0.3px] text-wp-ink/82">
+            {introProse}
           </p>
         ) : null}
         {category.priceColumns && category.priceColumns.length > 0 ? (
@@ -216,9 +219,11 @@ function CategoryPanel({
  */
 export function MenuAccordion({
   categories,
+  categoryLeads,
   labels,
 }: Readonly<{
   categories: MenuCategoryData[];
+  categoryLeads?: Record<string, string>;
   labels: MenuLabels;
 }>) {
   const food = categories.filter((c) => c.column === "left");
@@ -274,6 +279,7 @@ export function MenuAccordion({
           <CategoryPanel
             key={cat._id}
             category={cat}
+            categoryLead={categoryLeads?.[cat._id]}
             open={openIds.has(cat._id)}
             onToggle={() => toggleCategory(cat._id)}
             allergensLabel={labels.allergensLabel}
@@ -308,6 +314,7 @@ export function MenuAccordion({
               <CategoryPanel
                 key={cat._id}
                 category={cat}
+                categoryLead={categoryLeads?.[cat._id]}
                 open={openIds.has(cat._id)}
                 onToggle={() => toggleCategory(cat._id)}
                 allergensLabel={labels.allergensLabel}

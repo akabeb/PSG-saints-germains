@@ -62,6 +62,26 @@ export default async function InfosPratiquesPage({
           <p className="geo-summary mx-auto mt-4 max-w-xl text-center font-script text-[20px] text-wp-gold-dark">
             {t.infos.walkInBanner}
           </p>
+
+          {/* Fiche pratique structurée (5 repères explicites dans la langue active) */}
+          <div className="mx-auto mt-10 max-w-3xl border border-wp-field-border/35 bg-wp-warm/35 px-6 py-6 sm:px-8">
+            <h3
+              id="fiche-pratique"
+              className="mb-4 text-center font-heading text-[15px] font-normal uppercase tracking-[0.2em] text-wp-gold-dark"
+            >
+              {geo.practicalFactsTitle}
+            </h3>
+            <ul className="practical-facts m-0 list-none space-y-2.5 p-0 font-body text-[15px] leading-[1.7] text-wp-ink/90">
+              {geo.practicalFacts.map((fact, idx) => (
+                <li key={idx}>
+                  <strong className="font-bold text-wp-accent">
+                    {fact.label} :
+                  </strong>{" "}
+                  {fact.value}
+                </li>
+              ))}
+            </ul>
+          </div>
         </LaurentContainer>
       </section>
 

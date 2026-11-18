@@ -2,6 +2,7 @@ import { ChevronGridAnimated } from "@/components/ChevronGridAnimated";
 import { LaurentContainer } from "@/components/LaurentContainer";
 import { MenuAccordion } from "@/components/MenuAccordion";
 import { SectionTitle } from "@/components/SectionTitle";
+import { geoContent } from "@/lib/geo-content";
 import { dict, type Locale } from "@/lib/i18n";
 import { getMenu } from "@/lib/getMenu";
 import { getSiteSettings } from "@/lib/getSiteSettings";
@@ -49,6 +50,7 @@ export async function MenuSection({
 
           <MenuAccordion
             categories={categories}
+            categoryLeads={geoContent[locale].categoryLeads}
             labels={{
               foodSeparator: t.menu.foodSeparator,
               drinksSeparator: t.menu.drinksSeparator,
