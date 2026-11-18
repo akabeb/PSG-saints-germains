@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import { InfosMap } from "@/components/InfosMap";
 import { LaurentContainer } from "@/components/LaurentContainer";
 import { PageHero } from "@/components/PageHero";
-import { PageJsonLd } from "@/components/PageJsonLd";
 import { SectionTitle } from "@/components/SectionTitle";
 import { geoContent } from "@/lib/geo-content";
 import { getSiteSettings } from "@/lib/getSiteSettings";
@@ -44,19 +43,9 @@ export default async function ContactPage({
   const settings = await getSiteSettings(l);
   const pageTitle = settings.contactTitle || t.contact.pageTitle;
   const formspreeAction = process.env.NEXT_PUBLIC_FORMSPREE_ACTION?.trim();
-  const metaDesc = `${settings.address} — ${settings.phone} — ${settings.email}`;
 
   return (
     <>
-      <PageJsonLd
-        locale={l}
-        path="/contact"
-        title={pageTitle}
-        description={metaDesc}
-        pageType="ContactPage"
-        breadcrumbs={[{ name: pageTitle, path: "/contact" }]}
-      />
-
       <PageHero title={pageTitle} locale={l} />
 
       <section id="contact-direct" className="bg-wp-surface py-[70px]">

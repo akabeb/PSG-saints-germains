@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { Arsenal, Josefin_Sans, Miniver } from "next/font/google";
 import localFont from "next/font/local";
 
+import { HeadJsonLd } from "@/components/HeadJsonLd";
 import { isLocale, localeMeta } from "@/lib/i18n";
 import { site, siteUrl } from "@/lib/site";
 
@@ -74,12 +75,16 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const hdrs = await headers();
   const rawLocale = hdrs.get("x-locale") ?? undefined;
+  const rawPathname = hdrs.get("x-pathname") ?? "";
   const htmlLang = isLocale(rawLocale) ? localeMeta[rawLocale].htmlLang : "fr";
 
   return (
     <html lang={htmlLang} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
+        {isLocale(rawLocale) ? (
+          <HeadJsonLd locale={rawLocale} pathname={rawPathname} />
+        ) : null}
       </head>
       <body
         className={`${caviarDreams.variable} ${josefin.variable} ${arsenal.variable} ${miniver.variable} font-nav min-h-screen antialiased`}

@@ -5,7 +5,6 @@ import { Footer } from "@/components/Footer";
 import { GoogleTagManager } from "@/components/GoogleTagManager";
 import { HtmlLangSync } from "@/components/HtmlLangSync";
 import { Navigation } from "@/components/Navigation";
-import { RestaurantJsonLd } from "@/components/RestaurantJsonLd";
 import { dict, isLocale, localeMeta, locales, type Locale } from "@/lib/i18n";
 
 export function generateStaticParams() {
@@ -29,7 +28,6 @@ export default async function LocaleLayout({
     <>
       <HtmlLangSync lang={localeMeta[typedLocale].htmlLang} />
       <GoogleTagManager locale={typedLocale} />
-      <RestaurantJsonLd locale={typedLocale} />
       <a
         href="#laurent-main"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:bg-wp-gold focus:px-4 focus:py-2 focus:font-cta focus:text-[11px] focus:uppercase focus:tracking-[0.26em] focus:text-wp-panel"

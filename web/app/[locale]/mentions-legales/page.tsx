@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 
 import { LaurentContainer } from "@/components/LaurentContainer";
 import { PageHero } from "@/components/PageHero";
-import { PageJsonLd } from "@/components/PageJsonLd";
 import { geoContent } from "@/lib/geo-content";
 import { getSiteSettings } from "@/lib/getSiteSettings";
 import { dict, isLocale, type Locale } from "@/lib/i18n";
@@ -43,14 +42,6 @@ export default async function MentionsLegalesPage({
 
   return (
     <>
-      <PageJsonLd
-        locale={l}
-        path="/mentions-legales"
-        title={t.legal.heroTitle}
-        description={t.legal.metaDescription}
-        breadcrumbs={[{ name: t.legal.heroTitle, path: "/mentions-legales" }]}
-      />
-
       <PageHero title={t.legal.heroTitle} locale={l} />
 
       <section id="mentions-legales" className="bg-wp-surface py-[70px]">

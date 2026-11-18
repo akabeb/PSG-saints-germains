@@ -363,7 +363,7 @@ export const dict: Record<Locale, DictSchema> = {
         "This website uses Google Tag Manager (GTM-PBSB8XVM) solely for audience measurement, disabled by default (Google Consent Mode v2) unless you click 'Accept'. You can change your preference anytime via the 'Cookies' link in the footer. When you visit the Practical Info or Contact pages, an OpenStreetMap frame is loaded from the OpenStreetMap Foundation (https://www.openstreetmap.org). Under GDPR, you may exercise your rights of access, rectification or erasure by writing to:",
       ipTitle: "4. Intellectual Property & Regulatory Information",
       ipText:
-        "All texts, photographs, logos and graphic elements on this website are protected by intellectual property laws. Any unauthorised reproduction is prohibited. All menu prices are stated in euros, inclusive of VAT and service. Alcohol abuse is dangerous for your health, please drink responsibly.",
+        "All texts, photographs, logos and graphic elements published on ausaintsperes.com are protected by French and international intellectual property laws. Any unauthorised reproduction or distribution is strictly prohibited. All menu prices at Le Comptoir des Saints-Pères are stated in euros, net inclusive of VAT and service, with major allergen details available on request at the counter in accordance with Regulation (EU) No 1169/2011. Alcohol abuse is dangerous for your health, please drink responsibly (Article L.3323-4 of the French Public Health Code).",
     },
     aria: {
       mainNav: "Main navigation",
@@ -476,7 +476,7 @@ export const dict: Record<Locale, DictSchema> = {
         "Este sitio web utiliza Google Tag Manager (GTM-PBSB8XVM) únicamente para la medición de audiencia, desactivado por defecto (Google Consent Mode v2) salvo que pulse « Aceptar ». Puede modificar su elección en cualquier momento desde el enlace « Cookies » en el pie de página. Al consultar Información práctica o Contacto, se carga un mapa desde OpenStreetMap (https://www.openstreetmap.org). Conforme al RGPD, puede ejercer sus derechos escribiendo a:",
       ipTitle: "4. Propiedad intelectual e información reglamentaria",
       ipText:
-        "Todos los textos, fotografías, logotipos y elementos gráficos de este sitio están protegidos por derechos de propiedad intelectual. Todos los precios de nuestra carta están expresados en euros, IVA y servicio incluidos.",
+        "Todos los textos, fotografías, logotipos y elementos gráficos publicados en ausaintsperes.com están protegidos por las leyes francesas e internacionales de propiedad intelectual, quedando prohibida cualquier reproducción sin autorización previa. Todos los precios de la carta de Le Comptoir des Saints-Pères se expresan en euros netos, impuestos y servicio incluidos, y el listado de alérgenos conforme al Reglamento (UE) n.º 1169/2011 está disponible en el mostrador. El abuso de alcohol es perjudicial para la salud; consúmalo con moderación (artículo L.3323-4 del Código de Salud Pública francés).",
     },
     aria: {
       mainNav: "Navegación principal",
@@ -589,7 +589,7 @@ export const dict: Record<Locale, DictSchema> = {
         "Questo sito utilizza Google Tag Manager (GTM-PBSB8XVM) esclusivamente per la misurazione del traffico, disattivato per impostazione predefinita (Google Consent Mode v2) finché non cliccate su « Accetta ». Potete modificare la vostra scelta in qualsiasi momento tramite il link « Cookie » nel piè di pagina. Visitando Info pratiche o Contatti viene caricata una mappa da OpenStreetMap (https://www.openstreetmap.org). Ai sensi del GDPR, potete esercitare i vostri diritti scrivendo a:",
       ipTitle: "4. Proprietà intellettuale e informazioni normative",
       ipText:
-        "Tutti i testi, le fotografie, i loghi e gli elementi grafici di questo sito sono protetti dal diritto d'autore. Tutti i prezzi indicati nel menù sono espressi in euro, IVA e servizio inclusi.",
+        "Tutti i testi, le fotografie, i loghi e gli elementi grafici pubblicati su ausaintsperes.com sono protetti dalle leggi francesi e internazionali sul diritto d'autore; qualsiasi riproduzione non autorizzata è vietata. Tutti i prezzi indicati nel menù di Le Comptoir des Saints-Pères sono espressi in euro netti, IVA e servizio inclusi, con l'elenco degli allergeni previsto dal Regolamento (UE) n. 1169/2011 consultabile al banco. L'abuso di alcol è pericoloso per la salute, consumare con moderazione (articolo L.3323-4 del Codice della salute pubblica francese).",
     },
     aria: {
       mainNav: "Navigazione principale",
@@ -702,7 +702,7 @@ export const dict: Record<Locale, DictSchema> = {
         "Diese Website nutzt Google Tag Manager (GTM-PBSB8XVM) ausschließlich zur Reichweitenmessung, standardmäßig deaktiviert (Google Consent Mode v2), bis Sie auf „Akzeptieren“ klicken. Sie können Ihre Auswahl jederzeit über den Link „Cookies“ in der Fußzeile ändern. Auf den Seiten Praktische Infos und Kontakt wird eine Karte von OpenStreetMap geladen (https://www.openstreetmap.org). Gemäß DSGVO können Sie Ihre Rechte geltend machen unter:",
       ipTitle: "4. Urheberrecht & gesetzliche Hinweise",
       ipText:
-        "Alle Texte, Fotografien, Logos und grafischen Elemente auf dieser Website sind urheberrechtlich geschützt. Sämtliche Preise auf unserer Karte verstehen sich in Euro inklusive Mehrwertsteuer und Bedienung.",
+        "Alle auf ausaintsperes.com veröffentlichten Texte, Fotografien, Logos und grafischen Elemente sind durch das französische und internationale Urheberrecht geschützt; jede unbefugte Vervielfältigung oder Verbreitung ist untersagt. Sämtliche Preise auf der Speisekarte des Le Comptoir des Saints-Pères verstehen sich netto in Euro inklusive Mehrwertsteuer und Bedienung, und die Allergenübersicht gemäß Verordnung (EU) Nr. 1169/2011 liegt am Tresen zur Einsicht aus. Alkoholmissbrauch gefährdet Ihre Gesundheit – bitte genießen Sie verantwortungsbewusst (Artikel L.3323-4 des französischen Gesetzbuchs über das öffentliche Gesundheitswesen).",
     },
     aria: {
       mainNav: "Hauptnavigation",

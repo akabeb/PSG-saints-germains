@@ -5,9 +5,6 @@ import { AboutSection } from "@/components/AboutSection";
 import { ContactSplit } from "@/components/ContactSplit";
 import { Hero } from "@/components/Hero";
 import { MenuSection } from "@/components/MenuSection";
-import { PageJsonLd } from "@/components/PageJsonLd";
-import { geoContent } from "@/lib/geo-content";
-import { getMenu } from "@/lib/getMenu";
 import { getSiteSettings } from "@/lib/getSiteSettings";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { buildPageMetadata } from "@/lib/seo";
@@ -37,21 +34,9 @@ export default async function HomePage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const l = locale as Locale;
-  const [settings, categories] = await Promise.all([
-    getSiteSettings(l),
-    getMenu(l),
-  ]);
 
   return (
     <>
-      <PageJsonLd
-        locale={l}
-        path=""
-        title={`${settings.name} — ${settings.tagline}`}
-        description={settings.description}
-        faqItems={geoContent[l].homeFaq}
-        menuCategories={categories}
-      />
       <Hero locale={l} />
       <MenuSection locale={l} />
       <AboutSection locale={l} />

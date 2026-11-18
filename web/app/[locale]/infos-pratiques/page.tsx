@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import { InfosMap } from "@/components/InfosMap";
 import { LaurentContainer } from "@/components/LaurentContainer";
 import { PageHero } from "@/components/PageHero";
-import { PageJsonLd } from "@/components/PageJsonLd";
 import { SectionTitle } from "@/components/SectionTitle";
 import { geoContent } from "@/lib/geo-content";
 import { getSiteSettings } from "@/lib/getSiteSettings";
@@ -41,20 +40,9 @@ export default async function InfosPratiquesPage({
   const t = dict[l];
   const geo = geoContent[l];
   const settings = await getSiteSettings(l);
-  const metaDesc = `${settings.address} · ${settings.phone} — ${settings.hoursLines.join(", ")}`;
 
   return (
     <>
-      <PageJsonLd
-        locale={l}
-        path="/infos-pratiques"
-        title={settings.infosHeroTitle}
-        description={metaDesc}
-        pageType="AboutPage"
-        breadcrumbs={[{ name: settings.infosHeroTitle, path: "/infos-pratiques" }]}
-        faqItems={geo.infosFaq}
-      />
-
       <PageHero title={settings.infosHeroTitle} locale={l} />
 
       <section id="horaires" className="bg-wp-surface py-[70px]">
