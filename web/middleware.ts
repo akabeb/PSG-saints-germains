@@ -19,7 +19,10 @@ const PUBLIC_PREFIXES = [
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (PUBLIC_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`) || pathname.startsWith(p))) {
+  if (
+    /^\/google[a-z0-9]+\.html$/i.test(pathname) ||
+    PUBLIC_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`) || pathname.startsWith(p))
+  ) {
     return NextResponse.next();
   }
 
@@ -43,6 +46,6 @@ export function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|icon|apple-icon|sitemap.xml|robots.txt|manifest.webmanifest|assets|fonts|api|studio).*)",
+    "/((?!_next/static|_next/image|favicon.ico|icon|apple-icon|sitemap.xml|robots.txt|manifest.webmanifest|google[a-z0-9]+\\.html|assets|fonts|api|studio).*)",
   ],
 };
