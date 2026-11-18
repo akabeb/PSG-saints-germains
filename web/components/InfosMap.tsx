@@ -18,10 +18,10 @@ export function InfosMap({
   addressUrl?: string;
 }) {
   const t = dict[locale];
-  const delta = 0.004;
+  const delta = 0.0018;
   const bbox = `${lng - delta},${lat - delta},${lng + delta},${lat + delta}`;
   const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lng}`;
-  const osmDirectUrl = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=17/${lat}/${lng}`;
+  const osmDirectUrl = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=19/${lat}/${lng}`;
 
   return (
     <div className="w-full bg-wp-warm">

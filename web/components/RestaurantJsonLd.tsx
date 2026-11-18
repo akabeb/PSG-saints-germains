@@ -25,6 +25,7 @@ export async function RestaurantJsonLd({ locale }: Readonly<{ locale: Locale }>)
     servesCuisine: ["French", "Brasserie", "Bistro"],
     acceptsReservations: false,
     hasMenu: `${base}/${locale}/la-carte`,
+    hasMap: settings.addressUrl,
     address: {
       "@type": "PostalAddress",
       streetAddress: "29 Rue des Saints-Pères",

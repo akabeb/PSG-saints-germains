@@ -26,7 +26,7 @@ export const site = {
     "Authentique bistrot parisien au 29 rue des Saints-Pères (Paris 6e) : cuisine de brasserie en continu sans réservation, vins et esprit Saint-Germain — ouvert 7j/7.",
   address: "29 Rue des Saints-Pères, 75006 Paris",
   addressUrl:
-    "https://www.google.com/maps/search/?api=1&query=29+Rue+des+Saints-P%C3%A8res+75006+Paris",
+    "https://www.google.com/maps/place/Le+Comptoir+des+Saints-P%C3%A8res/@48.8562766,2.3319344,21z/data=!4m6!3m5!1s0x47e671d7de37c30d:0x4d72509d349ce56e!8m2!3d48.8564091!4d2.3318364!16s%2Fg%2F1thx7y17",
   phone: "01 40 20 09 39",
   phoneInternational: "+33 1 40 20 09 39",
   phoneHref: "tel:+33140200939",
@@ -60,8 +60,8 @@ export const site = {
     "Le Comptoir des Saints-Pères se situe entre le Musée d'Orsay, le Musée du Louvre et l'église de Saint-Germain-des-Prés.",
   directionsMetro:
     "Métros Saint-Germain-des-Prés (ligne 4) et Rue du Bac (ligne 12)",
-  mapLat: 48.8563,
-  mapLng: 2.3318,
+  mapLat: 48.8564091,
+  mapLng: 2.3318364,
 };
 
 export type LocalizedSiteCopy = {

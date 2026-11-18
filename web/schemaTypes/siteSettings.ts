@@ -72,14 +72,14 @@ export const siteSettings = defineType({
       title: "Latitude (carte)",
       type: "number",
       group: "general",
-      initialValue: 48.8563,
+      initialValue: 48.8564091,
     }),
     defineField({
       name: "mapLng",
       title: "Longitude (carte)",
       type: "number",
       group: "general",
-      initialValue: 2.3318,
+      initialValue: 2.3318364,
     }),
     defineField({
       name: "heroImage",
