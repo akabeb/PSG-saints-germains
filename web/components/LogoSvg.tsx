@@ -1,13 +1,15 @@
 /**
- * Logo SVG — extrait directement du site live ausaintsperes.com
- * (chemin SVG inline du thème Laurent / eltdf-logo-svg-path).
+ * Logo SVG LCSP — extrait du site ausaintsperes.com.
+ * aria-hidden par défaut lorsqu'il est imbriqué dans un lien déjà labellisé.
  */
 export function LogoSvg({
   className = "",
   fill = "currentColor",
+  ariaHidden = true,
 }: {
   className?: string;
   fill?: string;
+  ariaHidden?: boolean;
 }) {
   return (
     <svg
@@ -16,7 +18,9 @@ export function LogoSvg({
       height="39"
       viewBox="0 0 100 39"
       xmlns="http://www.w3.org/2000/svg"
-      aria-label="LCSP"
+      aria-hidden={ariaHidden || undefined}
+      aria-label={ariaHidden ? undefined : "LCSP"}
+      focusable="false"
     >
       <g fill={fill} fillRule="evenodd">
         {/* LE COMPTOIR */}

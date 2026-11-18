@@ -2,19 +2,26 @@ import { ChevronGridAnimated } from "@/components/ChevronGridAnimated";
 import { LaurentContainer } from "@/components/LaurentContainer";
 import { MenuAccordion } from "@/components/MenuAccordion";
 import { SectionTitle } from "@/components/SectionTitle";
-import type { Locale } from "@/lib/i18n";
+import { dict, type Locale } from "@/lib/i18n";
 import { getMenu } from "@/lib/getMenu";
 import { getSiteSettings } from "@/lib/getSiteSettings";
 import { CHEVRON_GRID_SVG } from "@/lib/svg-assets";
 
-export async function MenuSection({ locale }: Readonly<{ locale: Locale }>) {
+export async function MenuSection({
+  locale,
+  hideSectionHeading = false,
+}: Readonly<{ locale: Locale; hideSectionHeading?: boolean }>) {
   const [categories, settings] = await Promise.all([
     getMenu(locale),
     getSiteSettings(locale),
   ]);
+  const t = dict[locale];
 
   return (
-    <section className="relative overflow-hidden bg-wp-surface py-[70px]">
+    <section
+      id="la-carte"
+      className="relative scroll-mt-20 overflow-x-clip bg-wp-surface py-[70px]"
+    >
       <div
         className="pointer-events-none absolute top-1/2 z-[1] hidden md:block"
         style={{ left: "-220px", transform: "translateY(calc(-50% - 60px))" }}
@@ -23,7 +30,7 @@ export async function MenuSection({ locale }: Readonly<{ locale: Locale }>) {
       </div>
       <LaurentContainer>
         <div className="relative z-[2]">
-          {(settings.menuEyebrow || settings.menuTitle) && (
+          {!hideSectionHeading && (settings.menuEyebrow || settings.menuTitle) && (
             <div className="mb-10 text-center">
               <SectionTitle
                 eyebrow={settings.menuEyebrow || undefined}
@@ -31,7 +38,27 @@ export async function MenuSection({ locale }: Readonly<{ locale: Locale }>) {
               />
             </div>
           )}
-          <MenuAccordion categories={categories} />
+
+          <MenuAccordion
+            categories={categories}
+            labels={{
+              foodSeparator: t.menu.foodSeparator,
+              drinksSeparator: t.menu.drinksSeparator,
+              expandAll: t.menu.expandAll,
+              collapseAll: t.menu.collapseAll,
+              allergensLabel: t.menu.allergensLabel,
+            }}
+          />
+
+          {/* Mentions réglementaires obligatoires CHR (prix TTC service compris, allergènes INCO, origine viandes, Loi Évin) */}
+          <div className="mt-12 border-t border-wp-field-border/30 pt-6 text-center">
+            <p className="mx-auto max-w-3xl font-body text-[13px] leading-relaxed text-wp-ink/75">
+              {t.menu.legalPricing}
+            </p>
+            <p className="mx-auto mt-1.5 max-w-3xl font-body text-[13px] leading-relaxed text-wp-ink/70">
+              {t.menu.legalMeatAndAlcohol}
+            </p>
+          </div>
         </div>
       </LaurentContainer>
     </section>

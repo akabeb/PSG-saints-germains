@@ -1,32 +1,27 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Arsenal, Josefin_Sans, Miniver } from "next/font/google";
 import localFont from "next/font/local";
 
+import { isLocale, localeMeta } from "@/lib/i18n";
 import { site, siteUrl } from "@/lib/site";
 
 import "./globals.css";
 
-/* ── Polices locales (extraites du thème WordPress Laurent) ── */
-/* weight "100 900" = un seul fichier bold répond à tous les font-weight (pas de variante) */
+/* Police locale de titrage (thème Laurent) */
 const caviarDreams = localFont({
   src: [
-    { path: "../public/fonts/caviardreams_bold-webfont.woff2", weight: "100 900", style: "normal" },
-    { path: "../public/fonts/caviardreams_bold-webfont.woff", weight: "100 900", style: "normal" },
+    {
+      path: "../public/fonts/caviardreams_bold-webfont.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
   ],
   variable: "--font-caviar",
   display: "swap",
 });
 
-const metropolis = localFont({
-  src: [
-    { path: "../public/fonts/metropolis1920-regular-webfont.woff2", weight: "400", style: "normal" },
-    { path: "../public/fonts/metropolis1920-regular-webfont.woff", weight: "400", style: "normal" },
-  ],
-  variable: "--font-metropolis",
-  display: "swap",
-});
-
-/* ── Google Fonts ── */
+/* Google Fonts */
 const josefin = Josefin_Sans({
   subsets: ["latin", "latin-ext"],
   variable: "--font-josefin",
@@ -35,7 +30,7 @@ const josefin = Josefin_Sans({
 });
 
 const arsenal = Arsenal({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-arsenal",
   weight: ["400", "700"],
   display: "swap",
@@ -54,36 +49,40 @@ export const metadata: Metadata = {
     default: `${site.name} — ${site.tagline}`,
     template: `%s | ${site.name}`,
   },
-  description: site.welcome,
+  description: site.description,
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: siteUrl,
+    url: `${siteUrl}/fr`,
     siteName: site.name,
     title: site.name,
-    description: site.welcome,
+    description: site.description,
     images: [
-      { url: "/assets/hero-cover.jpg", width: 2560, height: 1263, alt: site.name },
+      { url: "/assets/hero-cover.jpg", width: 2560, height: 1262, alt: site.name },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: site.name,
-    description: site.welcome,
+    description: site.description,
+    images: ["/assets/hero-cover.jpg"],
   },
-  alternates: { canonical: "/" },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const hdrs = await headers();
+  const rawLocale = hdrs.get("x-locale") ?? undefined;
+  const htmlLang = isLocale(rawLocale) ? localeMeta[rawLocale].htmlLang : "fr";
+
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang={htmlLang} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
       </head>
       <body
-        className={`${caviarDreams.variable} ${metropolis.variable} ${josefin.variable} ${arsenal.variable} ${miniver.variable} font-nav min-h-screen antialiased`}
+        className={`${caviarDreams.variable} ${josefin.variable} ${arsenal.variable} ${miniver.variable} font-nav min-h-screen antialiased`}
       >
         {children}
       </body>

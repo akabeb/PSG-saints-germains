@@ -1,28 +1,22 @@
 @import "tailwindcss";
 
 /*
- * Design System — extrait directement de :
- *   modules.css (thème Laurent)
- *   style_dynamic.css (customizer WordPress)
+ * Design System — gabarit Laurent (modules.css + style_dynamic.css)
+ * calibré pour respecter WCAG AA (4.5:1) sur fonds clairs comme sombres.
  */
 :root {
-  --wp-accent: #005e66;      /* teal — titres de section, accents (=WP customizer) */
+  --wp-accent: #005e66;       /* teal — titres de section, accents (7.52:1 sur blanc) */
   --wp-ink: #071214;
   --wp-surface: #ffffff;
   --wp-panel: #0b1315;
-  --wp-field-border: #715b3e;
-  --wp-gold: #c9ab81;        /* or — taglines Miniver, hover nav, éléments décoratifs */
-  --wp-teal: #005e66;        /* alias explicite, identique à --wp-accent */
+  --wp-field-border: #715b3e; /* 6.43:1 sur blanc */
+  --wp-gold: #c9ab81;         /* or clair — réservé aux fonds sombres #0b1315 (8.61:1) */
+  --wp-gold-dark: #7a5c34;    /* bronze doré — taglines & accents sur fonds clairs (5.78:1 AA) */
+  --wp-teal: #005e66;
   --wp-ornament: #9C7C57;
   --wp-warm: #faf9f4;
 }
 
-/*
- * @theme inline = la valeur est INLINE dans les utilities générées
- * (.font-nav, .font-heading, .font-body). Indispensable car next/font expose
- * --font-josefin/--font-caviar/--font-arsenal SUR <body>, pas sur :root —
- * donc une définition de --font-nav dans :root échouerait à résoudre.
- */
 @theme inline {
   --color-wp-accent: var(--wp-accent);
   --color-wp-ink: var(--wp-ink);
@@ -30,22 +24,21 @@
   --color-wp-panel: var(--wp-panel);
   --color-wp-field-border: var(--wp-field-border);
   --color-wp-gold: var(--wp-gold);
+  --color-wp-gold-dark: var(--wp-gold-dark);
   --color-wp-teal: var(--wp-teal);
   --color-wp-ornament: var(--wp-ornament);
   --color-wp-warm: var(--wp-warm);
-  /* caviar_dreamsbold (local) remplace Voltaire pour tous les titres */
   --font-heading: var(--font-caviar), "Caviar Dreams", ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-arsenal), ui-sans-serif, system-ui, sans-serif;
   --font-nav: var(--font-josefin), ui-sans-serif, system-ui, sans-serif;
-  /* Josefin Sans condensé (letter-spacing .36em) = équivalent Open Sans Condensed WP */
   --font-cta: var(--font-josefin), ui-sans-serif, system-ui, sans-serif;
 }
 
-/*
- * Toutes les règles d'éléments sont dans @layer base pour qu'elles soient
- * écrasables par les utilities Tailwind (text-white, text-wp-accent, etc.).
- */
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     --font-heading: var(--font-caviar), "Caviar Dreams", ui-sans-serif, system-ui, sans-serif;
     --font-body: var(--font-arsenal), ui-sans-serif, system-ui, sans-serif;
@@ -61,46 +54,40 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /*
-   * Titres — thème Laurent (style_dynamic.css WP customizer) :
-   * h1  = blanc sur fond sombre (hero), teal sur fond clair
-   * h2–h6 = teal #005e66
-   * text-transform: uppercase sur tous les niveaux
-   */
   h1 {
     color: var(--wp-surface);
     font-family: var(--font-heading);
     font-weight: 400;
-    font-size: 48px;
+    font-size: clamp(26px, 5vw, 48px);
     line-height: 1.27em;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
   }
   h2 {
     color: var(--wp-accent);
     font-family: var(--font-heading);
     font-weight: 400;
-    font-size: 41px;
+    font-size: clamp(26px, 4.2vw, 41px);
     line-height: 1.31em;
-    letter-spacing: 0.23em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
   }
   h3 {
     color: var(--wp-accent);
     font-family: var(--font-heading);
     font-weight: 400;
-    font-size: 36px;
+    font-size: clamp(24px, 3.6vw, 36px);
     line-height: 1.30em;
-    letter-spacing: 0.23em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
   }
   h4 {
     color: var(--wp-accent);
     font-family: var(--font-heading);
     font-weight: 400;
-    font-size: 28px;
+    font-size: clamp(20px, 2.8vw, 28px);
     line-height: 1.39em;
-    letter-spacing: 0.23em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
   }
   h5 {
@@ -109,7 +96,7 @@
     font-weight: 400;
     font-size: 19px;
     line-height: 1.52em;
-    letter-spacing: 0.23em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
   }
   h6 {
@@ -118,26 +105,33 @@
     font-weight: 400;
     font-size: 17px;
     line-height: 1.58em;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
   }
-  p { color: var(--wp-ink); font-family: var(--font-body); font-size: 16px; letter-spacing: 1px; }
-  a, p a { color: inherit; }
+  p {
+    color: var(--wp-ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    letter-spacing: 0.5px;
+  }
+  a, p a {
+    color: inherit;
+  }
 }
 
 .font-heading { font-family: var(--font-heading); }
 .font-body { font-family: var(--font-body); }
 .font-nav { font-family: var(--font-nav); }
-/* Boutons CTA — Josefin Sans 300 + tracking .36em ≈ Open Sans Condensed du thème WP */
+.font-script { font-family: var(--font-script), cursive; }
 .font-cta {
   font-family: var(--font-cta);
-  font-weight: 300;
-  letter-spacing: 0.36em;
+  font-weight: 400;
+  letter-spacing: 0.28em;
 }
 
 /*
- * Section title holder — repro `.eltdf-section-title-holder.eltdf-st-decor-animation`.
- * Tagline = Miniver gold ; decor zigzag de chaque côté du titre, animé au scroll.
+ * Section title holder — gabarit Laurent.
+ * Tagline Miniver en --wp-gold-dark sur fond clair pour respecter WCAG AA (5.78:1).
  */
 .section-title-holder {
   position: relative;
@@ -148,29 +142,42 @@
 }
 .section-title-holder .st-tagline {
   font-family: var(--font-script), cursive;
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 400;
   line-height: 28px;
   letter-spacing: 0.04em;
-  color: var(--wp-gold);
+  color: var(--wp-gold-dark);
   display: block;
   margin-bottom: 13px;
   text-transform: none;
   -webkit-font-smoothing: antialiased;
 }
+.section-title-holder.st-dark .st-tagline {
+  color: var(--wp-gold);
+}
 .section-title-holder .st-title-holder {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  gap: 18px;
+  max-width: 100%;
   position: relative;
 }
 .section-title-holder .st-title-holder .decor {
   color: var(--wp-ornament);
   position: relative;
   top: -1px;
-  display: inline-block;
+  display: none;
+  flex-shrink: 0;
 }
-.section-title-holder .st-title-holder .decor.decor-first { left: -30px; }
-.section-title-holder .st-title-holder .decor.decor-last { right: -20px; transform: rotate(180deg); }
+@media (min-width: 480px) {
+  .section-title-holder .st-title-holder .decor {
+    display: inline-block;
+  }
+}
+.section-title-holder .st-title-holder .decor.decor-last {
+  transform: rotate(180deg);
+}
 .section-title-holder .st-title-holder .decor svg path {
   stroke-dashoffset: 57;
   stroke-dasharray: 57;
@@ -182,15 +189,20 @@
   from { stroke-dashoffset: 57; stroke-dasharray: 57; }
   to { stroke-dashoffset: 0; stroke-dasharray: 57; }
 }
-.section-title-holder .st-title { margin: 0; }
+.section-title-holder .st-title {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
 .section-title-holder .st-text {
   display: block;
-  margin: 19px 0 0;
+  max-width: 65ch;
+  margin: 19px auto 0;
+  white-space: pre-line;
+  line-height: 1.75;
 }
 
-/*
- * Pattern chevron-grid animé — `.eltdf-svg-pattern-holder.eltdf-appear` du thème.
- */
+/* Pattern chevron-grid animé */
 .pattern-holder svg {
   width: 100%;
   height: 100%;
@@ -205,12 +217,11 @@
   stroke-dashoffset: 0;
 }
 
-/*
- * Lien de nav — repro des deux traits gold animés du thème Laurent.
- */
+/* Lien de nav — double trait gold animé du thème Laurent */
 .nav-link {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
 }
 .nav-link::before,
 .nav-link::after {
@@ -228,11 +239,9 @@
 }
 .nav-link::before {
   bottom: -8px;
-  transform-origin: 0 50%;
 }
 .nav-link::after {
   bottom: -14px;
-  transform-origin: 0 50%;
   transition-delay: 0.1s;
 }
 .nav-link:hover::before,
@@ -242,38 +251,44 @@
   transform: translateZ(0) scaleX(1);
 }
 
-/* eltdf-pricing-lines : double trait 1px solide, 5px d'écart. */
+/* Double trait de liaison prix (.eltdf-pricing-lines) */
 .pricing-leader {
   position: relative;
-  border-bottom: 1px solid var(--wp-field-border);
-  bottom: 8px;
+  border-bottom: 1px solid color-mix(in srgb, var(--wp-field-border) 55%, transparent);
+  bottom: 6px;
   height: 1px;
 }
 .pricing-leader::after {
   content: "";
   position: absolute;
-  bottom: 5px;
+  bottom: 4px;
   left: 0;
   right: 0;
-  border-bottom: 1px solid var(--wp-field-border);
+  border-bottom: 1px solid color-mix(in srgb, var(--wp-field-border) 55%, transparent);
 }
 
-/* Sélection de texte — teal #005e66 (identique au thème WP) */
 ::selection {
   background-color: var(--wp-teal);
   color: var(--wp-surface);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .section-title-holder .decor svg path {
-    stroke-dashoffset: 0;
-    animation: none;
+  html {
+    scroll-behavior: auto;
   }
+  .section-title-holder .decor svg path,
   .section-title-holder.appear .decor svg path {
+    stroke-dashoffset: 0;
     animation: none;
   }
   .pattern-holder svg path {
     transition: none;
     stroke-dashoffset: 0;
+  }
+  .nav-link::before,
+  .nav-link::after,
+  .accordion-panel,
+  .mobile-drawer {
+    transition: none !important;
   }
 }

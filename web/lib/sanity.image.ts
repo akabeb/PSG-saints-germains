@@ -9,7 +9,10 @@ const builder = sanityConfigured
   ? createImageUrlBuilder({ projectId, dataset })
   : null;
 
-export function urlForImage(source: SanityImageSource | undefined) {
+export function urlForImage(
+  source: SanityImageSource | undefined,
+  width = 1600,
+) {
   if (!builder || !source) return null;
-  return builder.image(source).width(900).auto("format").fit("max").url();
+  return builder.image(source).width(width).auto("format").fit("max").url();
 }

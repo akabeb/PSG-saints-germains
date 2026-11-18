@@ -2,10 +2,10 @@ import { groq } from "next-sanity";
 
 import { sanityClient } from "@/lib/sanity.client";
 import type { Locale } from "@/lib/i18n";
-import { site, siteEn } from "@/lib/site";
+import { site, siteByLocale } from "@/lib/site";
 import type { DishImage } from "@/lib/types.dish";
 
-type SanitySettingsRaw = {
+type SanitySettingsRaw = Record<string, unknown> & {
   name?: string;
   address?: string;
   addressUrl?: string;
@@ -13,27 +13,9 @@ type SanitySettingsRaw = {
   email?: string;
   instagramUrl?: string;
   heroImage?: DishImage;
-  heroTitle?: string;        heroTitle_en?: string;
-  heroWelcome?: string;      heroWelcome_en?: string;
-  menuEyebrow?: string;      menuEyebrow_en?: string;
-  menuTitle?: string;        menuTitle_en?: string;
-  aboutEyebrow?: string;     aboutEyebrow_en?: string;
-  aboutTitle?: string;       aboutTitle_en?: string;
-  aboutText?: string;        aboutText_en?: string;
   aboutImageLeft?: DishImage;
   aboutImageRight?: DishImage;
-  contactTitle?: string;     contactTitle_en?: string;
-  contactDays?: string;      contactDays_en?: string;
-  contactCtaLabel?: string;  contactCtaLabel_en?: string;
   contactImage?: DishImage;
-  infosHeroTitle?: string;   infosHeroTitle_en?: string;
-  hoursEyebrow?: string;     hoursEyebrow_en?: string;
-  hoursTitle?: string;       hoursTitle_en?: string;
-  hoursLines?: string[];     hoursLines_en?: string[];
-  addressTitle?: string;     addressTitle_en?: string;
-  directionsTitle?: string;  directionsTitle_en?: string;
-  directionsText?: string;   directionsText_en?: string;
-  directionsMetro?: string;  directionsMetro_en?: string;
   mapLat?: number;
   mapLng?: number;
 };
@@ -46,6 +28,7 @@ export type SiteSettings = {
   address: string;
   addressUrl: string;
   phone: string;
+  phoneInternational: string;
   phoneHref: string;
   email: string;
   instagramUrl: string;
@@ -74,64 +57,55 @@ export type SiteSettings = {
   mapLng: number;
 };
 
-const SETTINGS_QUERY = groq`*[_type == "siteSettings"][0]{
-  name, address, addressUrl, phone, email, instagramUrl,
-  heroImage,
-  heroTitle, heroTitle_en,
-  heroWelcome, heroWelcome_en,
-  menuEyebrow, menuEyebrow_en,
-  menuTitle, menuTitle_en,
-  aboutEyebrow, aboutEyebrow_en,
-  aboutTitle, aboutTitle_en,
-  aboutText, aboutText_en,
-  aboutImageLeft, aboutImageRight,
-  contactTitle, contactTitle_en,
-  contactDays, contactDays_en,
-  contactCtaLabel, contactCtaLabel_en,
-  contactImage,
-  infosHeroTitle, infosHeroTitle_en,
-  hoursEyebrow, hoursEyebrow_en,
-  hoursTitle, hoursTitle_en,
-  hoursLines, hoursLines_en,
-  addressTitle, addressTitle_en,
-  directionsTitle, directionsTitle_en,
-  directionsText, directionsText_en,
-  directionsMetro, directionsMetro_en,
-  mapLat, mapLng
-}`;
+const SETTINGS_QUERY = groq`*[_type == "siteSettings"][0]`;
 
-/** Retourne la valeur locale-appropriée : préfère le champ _en si locale=en et valeur non vide. */
-function pick(
+function pickLocalizedString(
   raw: SanitySettingsRaw,
-  frKey: keyof SanitySettingsRaw,
-  enKey: keyof SanitySettingsRaw,
+  baseKey: string,
   locale: Locale,
 ): string | undefined {
-  const enVal = raw[enKey];
-  const frVal = raw[frKey];
-  if (locale === "en" && enVal && enVal !== "") return enVal as string;
-  if (frVal && frVal !== "") return frVal as string;
+  if (locale === "fr") {
+    const frVal = raw[baseKey];
+    return typeof frVal === "string" && frVal.trim() !== "" ? frVal : undefined;
+  }
+  const locVal = raw[`${baseKey}_${locale}`];
+  if (typeof locVal === "string" && locVal.trim() !== "") return locVal;
   return undefined;
 }
 
-function pickArray(
+function pickLocalizedArray(
   raw: SanitySettingsRaw,
-  frKey: keyof SanitySettingsRaw,
-  enKey: keyof SanitySettingsRaw,
+  baseKey: string,
   locale: Locale,
 ): string[] | undefined {
-  const enVal = raw[enKey] as string[] | undefined;
-  const frVal = raw[frKey] as string[] | undefined;
-  if (locale === "en" && enVal && enVal.length > 0) return enVal;
-  if (frVal && frVal.length > 0) return frVal;
+  if (locale === "fr") {
+    const frVal = raw[baseKey];
+    return Array.isArray(frVal) && frVal.length > 0 ? (frVal as string[]) : undefined;
+  }
+  const locVal = raw[`${baseKey}_${locale}`];
+  if (Array.isArray(locVal) && locVal.length > 0) return locVal as string[];
   return undefined;
 }
+
+function buildPhoneHref(phone: string): string {
+  const digits = phone.replace(/[^\d+]/g, "");
+  if (digits.startsWith("+")) return `tel:${digits}`;
+  if (digits.startsWith("0") && digits.length === 10) {
+    return `tel:+33${digits.slice(1)}`;
+  }
+  return `tel:${digits}`;
+}
+
+const STALE_CONTACT_DAYS = new Set([
+  "du lundi au vendredi",
+  "monday to friday",
+]);
 
 export async function getSiteSettings(locale: Locale = "fr"): Promise<SiteSettings> {
   const defaults: SiteSettings =
-    locale === "en"
-      ? { ...site, ...siteEn }
-      : { ...site };
+    locale === "fr"
+      ? { ...site }
+      : { ...site, ...siteByLocale[locale] };
 
   if (!sanityClient) return defaults;
 
@@ -141,77 +115,77 @@ export async function getSiteSettings(locale: Locale = "fr"): Promise<SiteSettin
 
     const merged: SiteSettings = { ...defaults };
 
-    /* Non-traduit */
-    if (raw.name)         merged.name = raw.name;
-    if (raw.address)      merged.address = raw.address;
-    if (raw.addressUrl)   merged.addressUrl = raw.addressUrl;
-    if (raw.email)        merged.email = raw.email;
-    if (raw.instagramUrl) merged.instagramUrl = raw.instagramUrl;
-    if (raw.heroImage)    merged.heroImage = raw.heroImage;
-    if (raw.aboutImageLeft)  merged.aboutImageLeft = raw.aboutImageLeft;
+    if (typeof raw.name === "string" && raw.name) merged.name = raw.name;
+    if (typeof raw.address === "string" && raw.address) merged.address = raw.address;
+    if (typeof raw.addressUrl === "string" && raw.addressUrl) merged.addressUrl = raw.addressUrl;
+    if (typeof raw.email === "string" && raw.email) merged.email = raw.email;
+    if (typeof raw.instagramUrl === "string" && raw.instagramUrl) merged.instagramUrl = raw.instagramUrl;
+    if (raw.heroImage) merged.heroImage = raw.heroImage;
+    if (raw.aboutImageLeft) merged.aboutImageLeft = raw.aboutImageLeft;
     if (raw.aboutImageRight) merged.aboutImageRight = raw.aboutImageRight;
     if (raw.contactImage) merged.contactImage = raw.contactImage;
-    if (raw.mapLat != null) merged.mapLat = raw.mapLat;
-    if (raw.mapLng != null) merged.mapLng = raw.mapLng;
+    if (typeof raw.mapLat === "number") merged.mapLat = raw.mapLat;
+    if (typeof raw.mapLng === "number") merged.mapLng = raw.mapLng;
 
-    if (raw.phone) {
+    if (typeof raw.phone === "string" && raw.phone) {
       merged.phone = raw.phone;
-      merged.phoneHref = `tel:${raw.phone.replace(/\s/g, "")}`;
+      merged.phoneHref = buildPhoneHref(raw.phone);
     }
 
-    /* Traduit */
-    const heroTitle = pick(raw, "heroTitle", "heroTitle_en", locale);
+    const heroTitle = pickLocalizedString(raw, "heroTitle", locale);
     if (heroTitle) merged.heroTitle = heroTitle;
 
-    const welcome = pick(raw, "heroWelcome", "heroWelcome_en", locale);
+    const welcome = pickLocalizedString(raw, "heroWelcome", locale);
     if (welcome) merged.welcome = welcome;
 
-    const menuEyebrow = pick(raw, "menuEyebrow", "menuEyebrow_en", locale);
-    if (menuEyebrow !== undefined) merged.menuEyebrow = menuEyebrow;
+    const menuEyebrow = pickLocalizedString(raw, "menuEyebrow", locale);
+    if (menuEyebrow) merged.menuEyebrow = menuEyebrow;
 
-    const menuTitle = pick(raw, "menuTitle", "menuTitle_en", locale);
+    const menuTitle = pickLocalizedString(raw, "menuTitle", locale);
     if (menuTitle) merged.menuTitle = menuTitle;
 
-    const aboutEyebrow = pick(raw, "aboutEyebrow", "aboutEyebrow_en", locale);
+    const aboutEyebrow = pickLocalizedString(raw, "aboutEyebrow", locale);
     if (aboutEyebrow) merged.aboutEyebrow = aboutEyebrow;
 
-    const aboutTitle = pick(raw, "aboutTitle", "aboutTitle_en", locale);
+    const aboutTitle = pickLocalizedString(raw, "aboutTitle", locale);
     if (aboutTitle) merged.aboutTitle = aboutTitle;
 
-    const aboutText = pick(raw, "aboutText", "aboutText_en", locale);
+    const aboutText = pickLocalizedString(raw, "aboutText", locale);
     if (aboutText) merged.aboutText = aboutText;
 
-    const contactTitle = pick(raw, "contactTitle", "contactTitle_en", locale);
+    const contactTitle = pickLocalizedString(raw, "contactTitle", locale);
     if (contactTitle) merged.contactTitle = contactTitle;
 
-    const contactDays = pick(raw, "contactDays", "contactDays_en", locale);
-    if (contactDays) merged.contactDays = contactDays;
+    const contactDays = pickLocalizedString(raw, "contactDays", locale);
+    if (contactDays && !STALE_CONTACT_DAYS.has(contactDays.trim().toLowerCase())) {
+      merged.contactDays = contactDays;
+    }
 
-    const contactCtaLabel = pick(raw, "contactCtaLabel", "contactCtaLabel_en", locale);
+    const contactCtaLabel = pickLocalizedString(raw, "contactCtaLabel", locale);
     if (contactCtaLabel) merged.contactCtaLabel = contactCtaLabel;
 
-    const infosHeroTitle = pick(raw, "infosHeroTitle", "infosHeroTitle_en", locale);
+    const infosHeroTitle = pickLocalizedString(raw, "infosHeroTitle", locale);
     if (infosHeroTitle) merged.infosHeroTitle = infosHeroTitle;
 
-    const hoursEyebrow = pick(raw, "hoursEyebrow", "hoursEyebrow_en", locale);
+    const hoursEyebrow = pickLocalizedString(raw, "hoursEyebrow", locale);
     if (hoursEyebrow) merged.hoursEyebrow = hoursEyebrow;
 
-    const hoursTitle = pick(raw, "hoursTitle", "hoursTitle_en", locale);
+    const hoursTitle = pickLocalizedString(raw, "hoursTitle", locale);
     if (hoursTitle) merged.hoursTitle = hoursTitle;
 
-    const hoursLines = pickArray(raw, "hoursLines", "hoursLines_en", locale);
+    const hoursLines = pickLocalizedArray(raw, "hoursLines", locale);
     if (hoursLines) merged.hoursLines = hoursLines;
 
-    const addressTitle = pick(raw, "addressTitle", "addressTitle_en", locale);
+    const addressTitle = pickLocalizedString(raw, "addressTitle", locale);
     if (addressTitle) merged.addressTitle = addressTitle;
 
-    const directionsTitle = pick(raw, "directionsTitle", "directionsTitle_en", locale);
+    const directionsTitle = pickLocalizedString(raw, "directionsTitle", locale);
     if (directionsTitle) merged.directionsTitle = directionsTitle;
 
-    const directionsText = pick(raw, "directionsText", "directionsText_en", locale);
+    const directionsText = pickLocalizedString(raw, "directionsText", locale);
     if (directionsText) merged.directionsText = directionsText;
 
-    const directionsMetro = pick(raw, "directionsMetro", "directionsMetro_en", locale);
+    const directionsMetro = pickLocalizedString(raw, "directionsMetro", locale);
     if (directionsMetro) merged.directionsMetro = directionsMetro;
 
     return merged;

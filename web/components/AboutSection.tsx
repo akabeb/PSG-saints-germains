@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ChevronGridAnimated } from "@/components/ChevronGridAnimated";
 import { LaurentContainer } from "@/components/LaurentContainer";
 import { SectionTitle } from "@/components/SectionTitle";
-import type { Locale } from "@/lib/i18n";
+import { dict, type Locale } from "@/lib/i18n";
 import { getSiteSettings } from "@/lib/getSiteSettings";
 import { urlForImage } from "@/lib/sanity.image";
 import { CHEVRON_PATTERN_TALL_SVG } from "@/lib/svg-assets";
@@ -13,11 +13,12 @@ const FALLBACK_RIGHT = "/assets/COMPTOIR-PRESSION.jpg";
 
 export async function AboutSection({ locale }: Readonly<{ locale: Locale }>) {
   const settings = await getSiteSettings(locale);
+  const t = dict[locale];
   const leftSrc = settings.aboutImageLeft
-    ? (urlForImage(settings.aboutImageLeft) ?? FALLBACK_LEFT)
+    ? (urlForImage(settings.aboutImageLeft, 900) ?? FALLBACK_LEFT)
     : FALLBACK_LEFT;
   const rightSrc = settings.aboutImageRight
-    ? (urlForImage(settings.aboutImageRight) ?? FALLBACK_RIGHT)
+    ? (urlForImage(settings.aboutImageRight, 900) ?? FALLBACK_RIGHT)
     : FALLBACK_RIGHT;
 
   return (
@@ -28,7 +29,7 @@ export async function AboutSection({ locale }: Readonly<{ locale: Locale }>) {
             eyebrow={settings.aboutEyebrow}
             title={settings.aboutTitle}
             subtitle={settings.aboutText}
-            level="h3"
+            level="h2"
           />
         </div>
 
@@ -36,7 +37,7 @@ export async function AboutSection({ locale }: Readonly<{ locale: Locale }>) {
           <div className="relative overflow-hidden">
             <Image
               src={leftSrc}
-              alt={`${settings.name} — Notre histoire`}
+              alt={t.aria.aboutLeftAlt}
               width={778}
               height={1182}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 480px"
@@ -53,7 +54,7 @@ export async function AboutSection({ locale }: Readonly<{ locale: Locale }>) {
           <div className="relative overflow-hidden">
             <Image
               src={rightSrc}
-              alt={`${settings.name} — Ambiance`}
+              alt={t.aria.aboutRightAlt}
               width={778}
               height={1182}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 480px"

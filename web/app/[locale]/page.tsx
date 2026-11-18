@@ -1,12 +1,30 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { AboutSection } from "@/components/AboutSection";
 import { ContactSplit } from "@/components/ContactSplit";
 import { Hero } from "@/components/Hero";
 import { MenuSection } from "@/components/MenuSection";
+import { getSiteSettings } from "@/lib/getSiteSettings";
 import { isLocale, type Locale } from "@/lib/i18n";
+import { buildPageMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const l: Locale = isLocale(locale) ? locale : "fr";
+  const settings = await getSiteSettings(l);
+  return buildPageMetadata({
+    locale: l,
+    path: "",
+    description: settings.description,
+  });
+}
 
 export default async function HomePage({
   params,

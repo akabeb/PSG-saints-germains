@@ -26,7 +26,14 @@ export default defineConfig({
                   .documentId("siteSettings")
               ),
             S.divider(),
-            S.documentTypeListItem("menuCategory").title("Carte — catégories"),
+            S.listItem()
+              .title("Carte — catégories")
+              .schemaType("menuCategory")
+              .child(
+                S.documentTypeList("menuCategory")
+                  .title("Carte — catégories")
+                  .defaultOrdering([{ field: "order", direction: "asc" }])
+              ),
           ]),
     }),
     visionTool(),

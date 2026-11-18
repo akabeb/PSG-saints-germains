@@ -10,14 +10,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "studio": "sanity dev --port 3333"
+    "studio": "sanity dev --port 3333",
+    "studio:deploy": "sanity deploy --yes",
+    "seed": "sanity exec scripts/seed-cli.ts --with-user-token"
   },
   "dependencies": {
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^5.22.0",
-    "next": "^15.3.6",
+    "next": "^15.5.29",
     "next-sanity": "^12.3.1",
-    "puppeteer": "^24.42.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "sanity": "^5.22.0",
@@ -30,7 +31,7 @@
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "eslint": "^9",
-    "eslint-config-next": "^15.3.6",
+    "eslint-config-next": "^15.5.29",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

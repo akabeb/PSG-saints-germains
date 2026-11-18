@@ -1,29 +1,35 @@
 import { defineField, defineType } from "sanity";
 
+const TRANSLATION_LANGUAGES = [
+  { code: "en", label: "English (EN)" },
+  { code: "es", label: "Español (ES)" },
+  { code: "it", label: "Italiano (IT)" },
+  { code: "de", label: "Deutsch (DE)" },
+] as const;
+
 /**
  * Paramètres globaux du site — singleton.
- * Les champs sans suffixe = version française (défaut).
- * Les champs _en = traduction anglaise (facultative, fall-back sur FR si absent).
+ * Séparation claire en 3 onglets :
+ *   1. « Coordonnées & Médias » (données communes non traduites : adresse, tél, photos, GPS)
+ *   2. « Textes & Horaires (FR) » (langue de référence française)
+ *   3. « Traductions (EN · ES · IT · DE) » (repliées par langue, facultatives avec repli automatique)
  */
 export const siteSettings = defineType({
   name: "siteSettings",
   title: "Paramètres du site",
   type: "document",
   groups: [
-    { name: "general", title: "Général", default: true },
-    { name: "hero", title: "Hero — FR" },
-    { name: "hero_en", title: "Hero — EN" },
-    { name: "menu", title: "Section carte — FR" },
-    { name: "menu_en", title: "Section carte — EN" },
-    { name: "about", title: "À propos — FR" },
-    { name: "about_en", title: "À propos — EN" },
-    { name: "contact", title: "Contact — FR" },
-    { name: "contact_en", title: "Contact — EN" },
-    { name: "infos", title: "Infos pratiques — FR" },
-    { name: "infos_en", title: "Infos pratiques — EN" },
+    { name: "general", title: "Coordonnées & Médias", default: true },
+    { name: "fr", title: "Textes & Horaires (FR)" },
+    { name: "i18n", title: "Traductions (EN · ES · IT · DE)" },
   ],
+  fieldsets: TRANSLATION_LANGUAGES.map((lang) => ({
+    name: `i18n_${lang.code}`,
+    title: `Traductions — ${lang.label}`,
+    options: { collapsible: true, collapsed: lang.code !== "en" },
+  })),
   fields: [
-    /* ── Général (non traduit) ── */
+    /* ── 1. Coordonnées & Médias (partagés entre toutes les langues) ── */
     defineField({
       name: "name",
       title: "Nom du restaurant",
@@ -61,291 +67,299 @@ export const siteSettings = defineType({
       type: "url",
       group: "general",
     }),
-
-    /* ── Hero FR ── */
-    defineField({
-      name: "heroImage",
-      title: "Image hero (parallax)",
-      type: "image",
-      options: { hotspot: true },
-      group: "hero",
-    }),
-    defineField({
-      name: "heroTitle",
-      title: "Titre hero — FR",
-      type: "string",
-      group: "hero",
-    }),
-    defineField({
-      name: "heroWelcome",
-      title: "Sous-titre hero — FR",
-      type: "text",
-      rows: 3,
-      group: "hero",
-    }),
-
-    /* ── Hero EN ── */
-    defineField({
-      name: "heroTitle_en",
-      title: "Titre hero — EN",
-      type: "string",
-      group: "hero_en",
-    }),
-    defineField({
-      name: "heroWelcome_en",
-      title: "Sous-titre hero — EN",
-      type: "text",
-      rows: 3,
-      group: "hero_en",
-    }),
-
-    /* ── Menu FR ── */
-    defineField({
-      name: "menuEyebrow",
-      title: "Surtitre section carte — FR",
-      type: "string",
-      group: "menu",
-    }),
-    defineField({
-      name: "menuTitle",
-      title: "Titre section carte — FR (ex. La Carte)",
-      type: "string",
-      group: "menu",
-    }),
-
-    /* ── Menu EN ── */
-    defineField({
-      name: "menuEyebrow_en",
-      title: "Surtitre section carte — EN",
-      type: "string",
-      group: "menu_en",
-    }),
-    defineField({
-      name: "menuTitle_en",
-      title: "Titre section carte — EN (ex. Our Menu)",
-      type: "string",
-      group: "menu_en",
-    }),
-
-    /* ── À propos FR ── */
-    defineField({
-      name: "aboutEyebrow",
-      title: "À propos — surtitre FR",
-      type: "string",
-      group: "about",
-    }),
-    defineField({
-      name: "aboutTitle",
-      title: "À propos — titre FR",
-      type: "string",
-      group: "about",
-    }),
-    defineField({
-      name: "aboutText",
-      title: "À propos — texte FR",
-      type: "text",
-      rows: 5,
-      group: "about",
-    }),
-    defineField({
-      name: "aboutImageLeft",
-      title: "À propos — image gauche",
-      type: "image",
-      options: { hotspot: true },
-      group: "about",
-    }),
-    defineField({
-      name: "aboutImageRight",
-      title: "À propos — image droite",
-      type: "image",
-      options: { hotspot: true },
-      group: "about",
-    }),
-
-    /* ── À propos EN ── */
-    defineField({
-      name: "aboutEyebrow_en",
-      title: "À propos — surtitre EN",
-      type: "string",
-      group: "about_en",
-    }),
-    defineField({
-      name: "aboutTitle_en",
-      title: "À propos — titre EN",
-      type: "string",
-      group: "about_en",
-    }),
-    defineField({
-      name: "aboutText_en",
-      title: "À propos — texte EN",
-      type: "text",
-      rows: 5,
-      group: "about_en",
-    }),
-
-    /* ── Contact FR ── */
-    defineField({
-      name: "contactTitle",
-      title: "Contact — titre FR (ex. Nous contacter)",
-      type: "string",
-      group: "contact",
-    }),
-    defineField({
-      name: "contactDays",
-      title: "Contact — mention jours FR",
-      type: "string",
-      group: "contact",
-    }),
-    defineField({
-      name: "contactCtaLabel",
-      title: "Contact — libellé bouton FR",
-      type: "string",
-      group: "contact",
-    }),
-    defineField({
-      name: "contactImage",
-      title: "Contact — image colonne droite",
-      type: "image",
-      options: { hotspot: true },
-      group: "contact",
-    }),
-
-    /* ── Contact EN ── */
-    defineField({
-      name: "contactTitle_en",
-      title: "Contact — titre EN (ex. Contact us)",
-      type: "string",
-      group: "contact_en",
-    }),
-    defineField({
-      name: "contactDays_en",
-      title: "Contact — mention jours EN",
-      type: "string",
-      group: "contact_en",
-    }),
-    defineField({
-      name: "contactCtaLabel_en",
-      title: "Contact — libellé bouton EN",
-      type: "string",
-      group: "contact_en",
-    }),
-
-    /* ── Infos pratiques FR ── */
-    defineField({
-      name: "infosHeroTitle",
-      title: "Infos — titre hero FR",
-      type: "string",
-      group: "infos",
-    }),
-    defineField({
-      name: "hoursEyebrow",
-      title: "Horaires — surtitre FR (ex. BIENVENUE)",
-      type: "string",
-      group: "infos",
-    }),
-    defineField({
-      name: "hoursTitle",
-      title: "Horaires — titre FR",
-      type: "string",
-      group: "infos",
-    }),
-    defineField({
-      name: "hoursLines",
-      title: "Horaires — lignes FR",
-      type: "array",
-      of: [{ type: "string" }],
-      group: "infos",
-    }),
-    defineField({
-      name: "addressTitle",
-      title: "Adresse — titre FR",
-      type: "string",
-      group: "infos",
-    }),
-    defineField({
-      name: "directionsTitle",
-      title: "Itinéraire — titre FR",
-      type: "string",
-      group: "infos",
-    }),
-    defineField({
-      name: "directionsText",
-      title: "Itinéraire — texte FR",
-      type: "text",
-      rows: 3,
-      group: "infos",
-    }),
-    defineField({
-      name: "directionsMetro",
-      title: "Itinéraire — mention métros FR",
-      type: "string",
-      group: "infos",
-    }),
     defineField({
       name: "mapLat",
       title: "Latitude (carte)",
       type: "number",
-      group: "infos",
+      group: "general",
       initialValue: 48.8563,
     }),
     defineField({
       name: "mapLng",
       title: "Longitude (carte)",
       type: "number",
-      group: "infos",
+      group: "general",
       initialValue: 2.3318,
     }),
+    defineField({
+      name: "heroImage",
+      title: "Image hero (parallax)",
+      type: "image",
+      options: { hotspot: true },
+      group: "general",
+    }),
+    defineField({
+      name: "aboutImageLeft",
+      title: "À propos — image gauche",
+      type: "image",
+      options: { hotspot: true },
+      group: "general",
+    }),
+    defineField({
+      name: "aboutImageRight",
+      title: "À propos — image droite",
+      type: "image",
+      options: { hotspot: true },
+      group: "general",
+    }),
+    defineField({
+      name: "contactImage",
+      title: "Contact — image colonne droite",
+      type: "image",
+      options: { hotspot: true },
+      group: "general",
+    }),
 
-    /* ── Infos pratiques EN ── */
+    /* ── 2. Textes & Horaires — Français (FR) ── */
     defineField({
-      name: "infosHeroTitle_en",
-      title: "Infos — titre hero EN",
+      name: "heroTitle",
+      title: "Titre hero — FR",
       type: "string",
-      group: "infos_en",
+      group: "fr",
     }),
     defineField({
-      name: "hoursEyebrow_en",
-      title: "Horaires — surtitre EN (ex. WELCOME)",
-      type: "string",
-      group: "infos_en",
-    }),
-    defineField({
-      name: "hoursTitle_en",
-      title: "Horaires — titre EN",
-      type: "string",
-      group: "infos_en",
-    }),
-    defineField({
-      name: "hoursLines_en",
-      title: "Horaires — lignes EN",
-      type: "array",
-      of: [{ type: "string" }],
-      group: "infos_en",
-    }),
-    defineField({
-      name: "addressTitle_en",
-      title: "Adresse — titre EN",
-      type: "string",
-      group: "infos_en",
-    }),
-    defineField({
-      name: "directionsTitle_en",
-      title: "Itinéraire — titre EN",
-      type: "string",
-      group: "infos_en",
-    }),
-    defineField({
-      name: "directionsText_en",
-      title: "Itinéraire — texte EN",
+      name: "heroWelcome",
+      title: "Sous-titre hero — FR",
       type: "text",
       rows: 3,
-      group: "infos_en",
+      group: "fr",
     }),
     defineField({
-      name: "directionsMetro_en",
-      title: "Itinéraire — mention métros EN",
+      name: "menuEyebrow",
+      title: "Surtitre section carte — FR",
       type: "string",
-      group: "infos_en",
+      group: "fr",
+    }),
+    defineField({
+      name: "menuTitle",
+      title: "Titre section carte — FR (ex. La Carte)",
+      type: "string",
+      group: "fr",
+    }),
+    defineField({
+      name: "aboutEyebrow",
+      title: "À propos — surtitre FR",
+      type: "string",
+      group: "fr",
+    }),
+    defineField({
+      name: "aboutTitle",
+      title: "À propos — titre FR",
+      type: "string",
+      group: "fr",
+    }),
+    defineField({
+      name: "aboutText",
+      title: "À propos — texte FR",
+      type: "text",
+      rows: 5,
+      group: "fr",
+    }),
+    defineField({
+      name: "contactTitle",
+      title: "Contact — titre FR (ex. Nous contacter)",
+      type: "string",
+      group: "fr",
+    }),
+    defineField({
+      name: "contactDays",
+      title: "Contact — mention jours FR",
+      type: "string",
+      group: "fr",
+    }),
+    defineField({
+      name: "contactCtaLabel",
+      title: "Contact — libellé bouton FR",
+      type: "string",
+      group: "fr",
+    }),
+    defineField({
+      name: "infosHeroTitle",
+      title: "Infos — titre hero FR",
+      type: "string",
+      group: "fr",
+    }),
+    defineField({
+      name: "hoursEyebrow",
+      title: "Horaires — surtitre FR (ex. BIENVENUE)",
+      type: "string",
+      group: "fr",
+    }),
+    defineField({
+      name: "hoursTitle",
+      title: "Horaires — titre FR",
+      type: "string",
+      group: "fr",
+    }),
+    defineField({
+      name: "hoursLines",
+      title: "Horaires — lignes FR",
+      type: "array",
+      of: [{ type: "string" }],
+      group: "fr",
+    }),
+    defineField({
+      name: "addressTitle",
+      title: "Adresse — titre FR",
+      type: "string",
+      group: "fr",
+    }),
+    defineField({
+      name: "directionsTitle",
+      title: "Itinéraire — titre FR",
+      type: "string",
+      group: "fr",
+    }),
+    defineField({
+      name: "directionsText",
+      title: "Itinéraire — texte FR",
+      type: "text",
+      rows: 3,
+      group: "fr",
+    }),
+    defineField({
+      name: "directionsMetro",
+      title: "Itinéraire — mention métros FR",
+      type: "string",
+      group: "fr",
+    }),
+
+    /* ── 3. Traductions repliées par langue (EN · ES · IT · DE) ── */
+    ...TRANSLATION_LANGUAGES.flatMap(({ code, label }) => {
+      const fs = `i18n_${code}`;
+      const tag = code.toUpperCase();
+      return [
+        defineField({
+          name: `heroTitle_${code}`,
+          title: `Titre hero — ${tag} (${label})`,
+          type: "string",
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `heroWelcome_${code}`,
+          title: `Sous-titre hero — ${tag}`,
+          type: "text",
+          rows: 3,
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `menuEyebrow_${code}`,
+          title: `Surtitre section carte — ${tag}`,
+          type: "string",
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `menuTitle_${code}`,
+          title: `Titre section carte — ${tag}`,
+          type: "string",
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `aboutEyebrow_${code}`,
+          title: `À propos — surtitre ${tag}`,
+          type: "string",
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `aboutTitle_${code}`,
+          title: `À propos — titre ${tag}`,
+          type: "string",
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `aboutText_${code}`,
+          title: `À propos — texte ${tag}`,
+          type: "text",
+          rows: 5,
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `contactTitle_${code}`,
+          title: `Contact — titre ${tag}`,
+          type: "string",
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `contactDays_${code}`,
+          title: `Contact — mention jours ${tag}`,
+          type: "string",
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `contactCtaLabel_${code}`,
+          title: `Contact — libellé bouton ${tag}`,
+          type: "string",
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `infosHeroTitle_${code}`,
+          title: `Infos — titre hero ${tag}`,
+          type: "string",
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `hoursEyebrow_${code}`,
+          title: `Horaires — surtitre ${tag}`,
+          type: "string",
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `hoursTitle_${code}`,
+          title: `Horaires — titre ${tag}`,
+          type: "string",
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `hoursLines_${code}`,
+          title: `Horaires — lignes ${tag}`,
+          type: "array",
+          of: [{ type: "string" }],
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `addressTitle_${code}`,
+          title: `Adresse — titre ${tag}`,
+          type: "string",
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `directionsTitle_${code}`,
+          title: `Itinéraire — titre ${tag}`,
+          type: "string",
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `directionsText_${code}`,
+          title: `Itinéraire — texte ${tag}`,
+          type: "text",
+          rows: 3,
+          group: "i18n",
+          fieldset: fs,
+        }),
+        defineField({
+          name: `directionsMetro_${code}`,
+          title: `Itinéraire — mention métros ${tag}`,
+          type: "string",
+          group: "i18n",
+          fieldset: fs,
+        }),
+      ];
     }),
   ],
   preview: {
